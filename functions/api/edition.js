@@ -1,22 +1,41 @@
 const valid=/^\d{4}-\d{2}-\d{2}$/;
-const enc=encodeURIComponent;
 
-const SECTIONS=[
- ['Bergamo città',/\bbergamo\b/i],['Provincia di Bergamo',/\b(seriate|treviglio|dalmine|romano di lombardia|clusone|lovere|val seriana|val brembana|bergamasca)\b/i],['Lombardia',/\b(lombardia|milano|brescia|monza|como|lecco|varese|pavia|cremona|mantova|sondrio)\b/i],['Italia - Politica e istituzioni',/\b(governo|parlamento|senato|camera|ministero|ministro|premier|presidente|politic|elezion)\w*/i],['Italia - Cronaca e giustizia',/\b(cronaca|tribunale|procura|arrest|inchiesta|indagine|giustizia|carabinieri|polizia)\w*/i],['Economia, lavoro, imprese, fisco e pensioni',/\b(econom|lavor|impres|fisco|pension|occupaz|stipend|inflaz|industr)\w*/i],['Europa e Unione europea',/\b(europa|ue|unione europea|bruxelles|commissione europea|parlamento europeo)\b/i],['Scienza, medicina e salute pubblica',/\b(scienz|medic|salute|sanit|ospedal|ricerca|farmac|virus|vaccin)\w*/i],['Tecnologia, intelligenza artificiale, digitale e cybersecurity',/\b(tecnolog|intelligenza artificiale|\bai\b|digitale|cyber|software|internet|robot)\w*/i],['Scuola, università, formazione e lavoro educativo',/\b(scuol|universit|student|docent|istruz|formaz)\w*/i],['Ambiente, clima, energia e trasporti',/\b(ambient|clima|energia|trasport|treno|ferrovi|aeroport|mobilit|meteo)\w*/i],['Cultura, libri, spettacolo e società',/\b(cultur|libro|cinema|teatro|musica|spettacol|festival|mostra)\w*/i],['Sport',/\b(sport|calcio|atalanta|serie a|champions|tennis|ciclismo|formula 1)\b/i],['Mercati e finanza',/\b(mercat|borsa|finanza|spread|azioni|obbligaz|bce|tassi)\w*/i],['Mondo e geopolitica',/\b(ucraina|russia|usa|stati uniti|cina|israele|gaza|medio oriente|nato|guerra|geopolit)\w*/i]
-];
-function range(d){d=d.replaceAll('-','');return[d+'000000',d+'235959']}
-function unique(a){let s=new Set;return a.filter(x=>{let k=(x.url||x.title||'').toLowerCase().replace(/[#?].*$/,'');if(!k||s.has(k))return false;s.add(k);return true})}
-function classify(t=''){for(const [s,r] of SECTIONS)if(r.test(t))return s;return 'In primo piano'}
-function clean(s=''){return s.replace(/<!\[CDATA\[|\]\]>/g,'').replace(/<[^>]*>/g,' ').replace(/&amp;/g,'&').replace(/&quot;/g,'"').replace(/&#39;|&apos;/g,"'").replace(/\s+/g,' ').trim()}
-function tag(xml,n){const m=xml.match(new RegExp(`<${n}(?:\\s[^>]*)?>([\\s\\S]*?)<\\/${n}>`,'i'));return m?clean(m[1]):''}
-function sourceName(title=''){const p=title.split(' - ');return p.length>1?p[p.length-1]:'Google News'}
-function makeEdition(date,items,engine){const d=new Date(date+'T12:00:00Z'),day=new Intl.DateTimeFormat('it-IT',{weekday:'long',timeZone:'UTC'}).format(d),label=new Intl.DateTimeFormat('it-IT',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(d);return{date,day:day[0].toUpperCase()+day.slice(1),dateLabel:label,updated:`ricostruita automaticamente da ${engine}`,roman:'Memoria liturgica non ricostruita automaticamente',franciscan:'Memoria liturgica francescana non ricostruita automaticamente',generated:true,engine,items}}
+async function archivedEdition(request,env,date){
+  if(!env.ASSETS) return null;
+  try{
+    const origin=new URL(request.url).origin;
+    const r=await env.ASSETS.fetch(new Request(`${origin}/data/${date}.json`));
+    if(!r.ok) return null;
+    const data=await r.json();
+    if(data && data.date===date && Array.isArray(data.items) && data.items.length){
+      return data;
+    }
+  }catch(e){}
+  return null;
+}
 
-async function gdelt(date){const[a,b]=range(date),url=`https://api.gdeltproject.org/api/v2/doc/doc?query=${enc('sourcecountry:italy')}&mode=ArtList&maxrecords=75&format=json&startdatetime=${a}&enddatetime=${b}&sort=DateDesc`;try{const r=await fetch(url,{headers:{'User-Agent':'RassegnaStampa/3.0','Accept':'application/json'}});if(r.status===429)return{items:[],error:'GDELT HTTP 429',status:429};if(!r.ok)return{items:[],error:`GDELT HTTP ${r.status}`,status:r.status};const j=await r.json(),items=unique((j.articles||[]).map(x=>({section:classify(x.title||''),title:x.title||'Notizia senza titolo',summary:`Notizia del ${date.split('-').reverse().join('/')} individuata nell'archivio web. Apri la fonte originale per dettagli e testo disponibile.`,source:(x.domain||'Fonte web').replace(/^www\./,''),url:x.url||''}))).slice(0,50);return{items,error:null,status:200}}catch(e){return{items:[],error:'GDELT non raggiungibile',status:503}}}
+export async function onRequestGet({request,env}){
+  const u=new URL(request.url),date=u.searchParams.get('date')||'';
+  if(!valid.test(date)) return Response.json({error:'Data non valida'},{status:400});
+  const today=new Date().toISOString().slice(0,10);
+  if(date>today) return Response.json({error:'Data futura'},{status:400});
 
-async function googleNews(date){const next=new Date(date+'T12:00:00Z');next.setUTCDate(next.getUTCDate()+1);const tomorrow=next.toISOString().slice(0,10);const q=`(Italia OR Bergamo OR Lombardia) after:${date} before:${tomorrow}`;const url=`https://news.google.com/rss/search?q=${enc(q)}&hl=it&gl=IT&ceid=IT:it`;try{const r=await fetch(url,{headers:{'User-Agent':'Mozilla/5.0 RassegnaStampa/3.0','Accept':'application/rss+xml,application/xml,text/xml'}});if(!r.ok)return{items:[],error:`Google News RSS HTTP ${r.status}`,status:r.status};const xml=await r.text(),blocks=xml.match(/<item>[\s\S]*?<\/item>/gi)||[];const items=unique(blocks.map(b=>{const raw=tag(b,'title'),url=tag(b,'link'),pub=tag(b,'pubDate'),src=tag(b,'source')||sourceName(raw),title=raw.replace(new RegExp(`\\s+-\\s+${src.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}$`),'').trim();return{section:classify(title),title:title||raw||'Notizia senza titolo',summary:`Notizia del ${date.split('-').reverse().join('/')} individuata tramite Google News. Apri la fonte per verificare dettagli e testo disponibile.`,source:src,url,published:pub}})).slice(0,50);return{items,error:null,status:200}}catch(e){return{items:[],error:'Google News RSS non raggiungibile',status:503}}}
+  const k='edition:'+date;
+  if(env.ARCHIVE){
+    const x=await env.ARCHIVE.get(k,'json');
+    if(x) return Response.json(x,{headers:{'Cache-Control':'public,max-age=3600'}});
+  }
 
-export async function onRequestGet({request,env}){const u=new URL(request.url),date=u.searchParams.get('date')||'';if(!valid.test(date))return Response.json({error:'Data non valida'},{status:400});const today=new Date().toISOString().slice(0,10);if(date>today)return Response.json({error:'Data futura'},{status:400});const k='edition:'+date;if(env.ARCHIVE){const x=await env.ARCHIVE.get(k,'json');if(x)return Response.json(x,{headers:{'Cache-Control':'public,max-age=3600'}})}
- let r=await gdelt(date),engine='GDELT';if(!r.items.length){const g=await googleNews(date);if(g.items.length){r=g;engine='Google News RSS'}else return Response.json({error:'Nessuna fonte reperita per la data richiesta',details:[r.error,g.error].filter(Boolean),date},{status:503,headers:{'Cache-Control':'public,max-age=300'}})}
- const edition=makeEdition(date,r.items,engine);if(env.ARCHIVE)await env.ARCHIVE.put(k,JSON.stringify(edition));return Response.json(edition,{headers:{'Cache-Control':'public,max-age=3600'}})
+  const edition=await archivedEdition(request,env,date);
+  if(edition){
+    if(env.ARCHIVE) await env.ARCHIVE.put(k,JSON.stringify(edition));
+    return Response.json({...edition,generated:false,engine:'Archivio editoriale'},
+      {headers:{'Cache-Control':'public,max-age=3600'}});
+  }
+
+  return Response.json({
+    error:'Edizione non ancora pubblicata',
+    date,
+    details:['La PWA utilizza ora esclusivamente edizioni editoriali preparate e archiviate. Nessuna interrogazione automatica a GDELT o Google News viene eseguita.']
+  },{status:404,headers:{'Cache-Control':'public,max-age=300'}});
 }
