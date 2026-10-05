@@ -1,0 +1,5 @@
+name = "rassegna-stampa-pwa"
+compatibility_date = "2026-10-05"
+pages_build_output_dir = "."
+
+# Associare un namespace Workers KV con binding ARCHIVE per conservare lato server le edizioni ricostruite.
