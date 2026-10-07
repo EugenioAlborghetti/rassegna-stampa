@@ -8,178 +8,255 @@
   "items": [
     {
       "section": "In primo piano",
-      "title": "Tre anni dal 7 ottobre, Israele in allerta",
-      "summary": "Nel terzo anniversario dell'attacco di Hamas del 7 ottobre 2023, Israele ha rafforzato l'allerta. Le autorità hanno richiamato alla prudenza anche i cittadini israeliani all'estero per il rischio di attentati contro obiettivi israeliani ed ebraici.",
-      "source": "Adnkronos",
-      "url": "https://www.adnkronos.com/internazionale/esteri/israele-timore-attacchi-oggi-7-ottobre_6KYmIEZwUpJYN597yuaQpG"
-    },
-    {
-      "section": "In primo piano",
-      "title": "Manifestazioni per il 7 ottobre in numerosi Paesi",
-      "summary": "Secondo informazioni del ministero israeliano per la Diaspora riportate da ANSA, per il 7 ottobre erano programmate centinaia di manifestazioni in decine di Paesi, Italia compresa. Consistenza e criticità delle singole iniziative richiedono verifiche locali.",
+      "title": "Nobel per la Chimica 2026 a Henri Kagan e Kenso Soai",
+      "summary": "Il premio Nobel per la Chimica 2026 è stato assegnato al francese Henri Kagan e al giapponese Kenso Soai per le scoperte sugli effetti non lineari dell'autocatalisi nella sintesi organica asimmetrica. Il lavoro aiuta a comprendere e controllare la chiralità, cioè le forme molecolari speculari, con importanti applicazioni nella produzione di farmaci.",
       "source": "ANSA",
-      "url": "https://www.ansa.it/ansamed/it/notizie/rubriche/politica/2026/10/06/allarme-proteste-anti-israele-nel-mondo-per-il-7-ottobre-italia-tra_61b3d054-ef1f-4eb8-8dd3-31c023fa4269.html"
+      "url": "https://www.ansa.it/canale_scienza/notizie/biotech/2026/10/07/il-nobel-per-la-chimica-a-kagan-e-soai-registi-delle-molecole-specchio_f8f2b9cf-0b31-40e4-a001-c9e5a57670a5.html"
     },
     {
       "section": "In primo piano",
-      "title": "Nuovi attacchi russi sull'Ucraina",
-      "summary": "Una nuova ondata di attacchi russi ha interessato Kiev e altre città ucraine. Reuters ha riferito di almeno due morti a Kiev e di danni a infrastrutture industriali, di trasporto e residenziali in diverse aree del Paese.",
+      "title": "Legge elettorale, la Camera approva la terza fiducia",
+      "summary": "La Camera ha approvato la terza questione di fiducia sulla riforma elettorale. Il testo prevede un sistema proporzionale con un premio fisso di maggioranza se la lista o coalizione più votata supera il quarantadue per cento, oltre alla reintroduzione delle preferenze con un meccanismo misto. Il voto finale è previsto per l'8 ottobre.",
+      "source": "RaiNews",
+      "url": "https://www.rainews.it/"
+    },
+    {
+      "section": "In primo piano",
+      "title": "Med9 a Spalato, Meloni: al vaglio le accise mobili",
+      "summary": "Al termine del vertice Med9 di Spalato, la presidente del Consiglio Giorgia Meloni ha detto che il governo valuta un nuovo intervento con il meccanismo delle accise mobili. Sono disponibili circa centosettanta milioni di euro, ma la decisione dipenderà anche dall'andamento delle misure di contenimento dei prezzi energetici.",
+      "source": "ANSA",
+      "url": "https://www.ansa.it/sito/notizie/politica/2026/10/07/meloni-valutiamo-accise-mobili-ma-spero-si-ripristini-pienamente-il-price-cap_70308abe-48ca-4134-bf86-e5657d48d1c0.html"
+    },
+    {
+      "section": "In primo piano",
+      "title": "Fondo monetario internazionale: energia, debito e intelligenza artificiale minacciano la crescita",
+      "summary": "La direttrice del Fondo monetario internazionale Kristalina Georgieva ha indicato prezzi energetici elevati, debito pubblico record e rischi finanziari legati al boom degli investimenti nell'intelligenza artificiale tra le principali minacce per l'economia mondiale. Il Fondo pubblicherà nuove previsioni durante gli incontri annuali di Bangkok.",
       "source": "Reuters",
-      "url": "https://www.reuters.com/world/europe/russia-strikes-ukraines-kyiv-fresh-wave-attacks-2026-10-07/"
+      "url": "https://www.reuters.com/world/asia-pacific/imf-chief-warns-energy-shock-growing-debt-ai-risks-threaten-global-growth-2026-10-07/"
     },
     {
       "section": "Bergamo città",
-      "title": "Esplosione di via Longo, proseguono le indagini",
-      "summary": "La Procura indaga sull'esplosione avvenuta in un condominio di via Longo. Gli investigatori stanno ricostruendo l'origine della fuga di gas e la sequenza degli eventi precedenti alla deflagrazione. Gli elementi raccolti devono ancora essere valutati dagli inquirenti.",
-      "source": "BergamoNews",
-      "url": "https://www.bergamonews.it/2026/10/07/esplosione-in-via-longo-sindaga-per-disastro-colposo-lombra-di-un-profondo-disagio-prima-della-tragedia/927175/"
-    },
-    {
-      "section": "Bergamo città",
-      "title": "Via Longo, decine di persone sfollate",
-      "summary": "La palazzina interessata dall'esplosione è rimasta inagibile. Il bilancio iniziale riportato dalle fonti comprende otto feriti, due dei quali gravi, e circa cinquanta persone costrette a lasciare l'edificio.",
-      "source": "ANSA",
-      "url": "https://www.ansa.it/sito/notizie/cronaca/index.shtml"
-    },
-    {
-      "section": "Bergamo città",
-      "title": "Città Alta, confronto sulle navette",
-      "summary": "A Bergamo continua il confronto sulle sperimentazioni per l'accesso a Città Alta e sull'utilizzo delle navette. L'amministrazione intende proseguire la sperimentazione pur a fronte di un utilizzo finora inferiore alle aspettative.",
-      "source": "BergamoNews",
-      "url": "https://www.bergamonews.it/2026/10/07/la-replica-piccata-di-berlanda-la-mobilita-non-e-una-palette-a-due-colori-navette-per-citta-alta-poco-usate-ma-si-va-avanti/927079/"
-    },
-    {
-      "section": "Provincia di Bergamo",
-      "title": "Caso Yara, respinta la richiesta di nuove analisi",
-      "summary": "La Corte d'Assise di Bergamo ha respinto l'istanza della difesa di Massimo Bossetti per nuove analisi sui reperti relativi all'omicidio di Yara Gambirasio. La decisione non modifica la condanna definitiva all'ergastolo.",
-      "source": "AGI",
-      "url": "https://www.agi.it/cronaca/news/2026-10-05/yara-giudici-bocciano-istanza-bossetti-39396661/"
-    },
-    {
-      "section": "Provincia di Bergamo",
-      "title": "Treviglio ricorda Bernardo Zenale",
-      "summary": "A Treviglio è stato programmato un incontro per il quinto centenario di Bernardo Zenale, pittore e architetto trevigliese, con un approfondimento sul contesto dell'età sforzesca e sul ruolo della città nel Ducato di Milano.",
+      "title": "Esplosione di via Longo, restano gravissimi due inquilini",
+      "summary": "Proseguono le indagini sull'esplosione nella palazzina di via Longo a Bergamo. L'Eco di Bergamo riferisce che tra le ipotesi investigative viene esaminata la posizione del tubo del gas trovato staccato. Marito e moglie coinvolti nell'esplosione restano in condizioni gravissime e gli sfollati sono circa quaranta. La dinamica definitiva deve ancora essere accertata.",
       "source": "L'Eco di Bergamo",
-      "url": "https://www.ecodibergamo.it/eventi/eppen/data/2026/10/07/"
+      "url": "https://www.ecodibergamo.it/stories/local/cronaca/bergamo/"
+    },
+    {
+      "section": "Bergamo città",
+      "title": "Nuovo tratto ciclabile tra Grumellina e San Tomaso",
+      "summary": "La Giunta di Bergamo ha approvato un intervento da duecentodiecimila euro per collegare via Guerrazzi a via Calvetti e dare continuità all'asse ciclabile tra la Grumellina e San Tomaso. Il progetto rientra nello sviluppo della mobilità ciclabile urbana.",
+      "source": "L'Eco di Bergamo",
+      "url": "https://www.ecodibergamo.it/stories/local/cronaca/bergamo/"
+    },
+    {
+      "section": "Bergamo città",
+      "title": "Bergamo Sviluppo orienta gli studenti verso lavoro e competenze digitali",
+      "summary": "La Camera di commercio, attraverso Bergamo Sviluppo, propone nuove iniziative rivolte alle scuole per avvicinare gli studenti al mondo del lavoro. Tra i temi indicati figura l'impatto dell'intelligenza artificiale sulle competenze richieste dall'economia digitale.",
+      "source": "L'Eco di Bergamo",
+      "url": "https://www.ecodibergamo.it/stories/local/cronaca/bergamo/"
+    },
+    {
+      "section": "Bergamo città",
+      "title": "Frodi fiscali e riciclaggio, indagine tocca anche la Bergamasca",
+      "summary": "Un'inchiesta coordinata dalla Procura di Ravenna coinvolge anche la provincia di Bergamo. Ventidue persone sono indagate e sono state disposte oltre quaranta perquisizioni in diverse province. Il sequestro preventivo arriva a circa trentasette milioni di euro. Le responsabilità devono essere accertate nel rispetto della presunzione di non colpevolezza.",
+      "source": "L'Eco di Bergamo",
+      "url": "https://www.ecodibergamo.it/stories/premium/bergamo-citta/frodi-fiscali-e-riciclaggio-coinvolta-anche-la-bergamasca-sequestri-per-37-mil-o_3966431_11/"
+    },
+    {
+      "section": "Provincia di Bergamo",
+      "title": "Novazza, Mike Pompeo alla guida del consiglio di Reveille Resources",
+      "summary": "In Valle Seriana torna in primo piano il progetto minerario legato all'uranio di Novazza. L'Eco di Bergamo segnala l'ingresso dell'ex segretario di Stato statunitense Mike Pompeo alla guida del consiglio di Reveille Resources. Gli sviluppi industriali e autorizzativi restano da seguire.",
+      "source": "L'Eco di Bergamo",
+      "url": "https://www.ecodibergamo.it/"
     },
     {
       "section": "Lombardia",
-      "title": "San Siro, il TAR dichiara inammissibile il ricorso sulla vendita",
-      "summary": "Il Tribunale amministrativo regionale della Lombardia ha dichiarato inammissibile il ricorso presentato contro alcuni atti relativi alla vendita dell'area dello stadio Giuseppe Meazza a Inter e Milan, per carenza d'interesse.",
+      "title": "Milano, accordo per il Garibaldi Life District",
+      "summary": "Comune di Milano e undici aziende del settore life sciences hanno sottoscritto un accordo per il Garibaldi Life District, con l'obiettivo di rafforzare collaborazione, innovazione e sviluppo delle realtà farmaceutiche e sanitarie presenti nell'area.",
       "source": "Adnkronos",
-      "url": "https://www.adnkronos.com/sport/san-siro-tar-boccia-ricorsi-vendita-inter-milan-cosa-e-successo_3coQ6n9VaCFOh6fbUVO40B"
+      "url": "https://www.adnkronos.com/cronaca/farmaceutica-garibaldi-life-district-milano-accordo-tra-comune-e-11-aziende-life-sciences_3F19C4m2RgYlYpr6X6MJXq"
     },
     {
       "section": "Italia - Politica e istituzioni",
-      "title": "Legge elettorale, confronto parlamentare sulla riforma",
-      "summary": "Il confronto politico sulla riforma della legge elettorale resta acceso. I passaggi parlamentari proseguono e le posizioni di maggioranza e opposizioni rimangono distanti su diversi aspetti del nuovo sistema.",
+      "title": "Riforma elettorale, premio di maggioranza sopra il quarantadue per cento",
+      "summary": "La riforma all'esame della Camera introduce un sistema proporzionale corretto da un premio fisso di settanta deputati e trentacinque senatori alla forza o coalizione più votata se supera il quarantadue per cento. Prevede inoltre preferenze, capilista bloccati e l'indicazione del candidato alla presidenza del Consiglio.",
       "source": "ANSA",
-      "url": "https://www.ansa.it/sito/notizie/politica/index.shtml"
+      "url": "https://www.ansa.it/sito/notizie/politica/2026/10/07/dal-premio-alle-preferenze-come-funziona-la-riforma_cb7f408a-5993-4ad9-b5ee-66c83b7a13a7.html"
     },
     {
       "section": "Italia - Politica e istituzioni",
-      "title": "Centrodestra, discussione sugli scenari elettorali",
-      "summary": "Nel centrodestra prosegue il confronto sugli scenari politici e sull'eventualità di anticipare il voto. Al momento si tratta di ipotesi e valutazioni politiche, non di una decisione formalmente assunta.",
+      "title": "Meloni al vertice dei nove Paesi mediterranei dell'Unione europea",
+      "summary": "Giorgia Meloni ha partecipato a Spalato al vertice Med9 con i leader dei Paesi mediterranei dell'Unione europea. Energia, inflazione, migrazioni e coordinamento europeo sono stati tra i dossier centrali dell'incontro.",
       "source": "ANSA",
-      "url": "https://www.ansa.it/sito/notizie/politica/index.shtml"
+      "url": "https://www.ansa.it/nuova_europa/it/notizie/rubriche/altrenews/2026/10/07/meloni-arrivata-a-spalato-per-il-vertice-med9_81bc188b-4454-4a58-a51f-a20edbf6ca36.html"
     },
     {
       "section": "Italia - Cronaca e giustizia",
-      "title": "Sicurezza rafforzata per le manifestazioni del 7 ottobre",
-      "summary": "Il Ministero dell'Interno ha predisposto misure rafforzate di prevenzione e vigilanza in occasione delle manifestazioni collegate all'anniversario del 7 ottobre, con particolare attenzione agli obiettivi considerati sensibili.",
-      "source": "ANSA",
-      "url": "https://www.ansa.it/sito/notizie/cronaca/index.shtml"
-    },
-    {
-      "section": "Economia, lavoro, imprese, fisco e pensioni",
-      "title": "Conti pubblici, resta la linea di prudenza sulla manovra",
-      "summary": "Il quadro della manovra economica resta condizionato dalla necessità di conciliare interventi per famiglie, imprese ed energia con gli obiettivi di finanza pubblica. Il governo ha richiamato alla prudenza nella gestione delle risorse.",
-      "source": "ANSA",
-      "url": "https://www.ansa.it/sito/notizie/economia/2026/10/02/via-libera-del-consiglio-dei-ministri-al-dpfp-e-a-scostamento-per-energia_8463ed4f-c10a-459f-8be8-a56ee2f0b01a.html"
-    },
-    {
-      "section": "Economia, lavoro, imprese, fisco e pensioni",
-      "title": "Ryanair prevede un aumento delle tariffe",
-      "summary": "Ryanair prevede un aumento dei prezzi dei biglietti, sostenendo che la crescita dovrebbe restare inferiore a quella di altri operatori. In Italia la compagnia punta a circa settanta milioni di passeggeri.",
-      "source": "AGI",
-      "url": "https://www.agi.it/economia/news/2026-10-01/ryanair-wilson-prezzi-aumenteranno-ma-meno-rispetto-ad-altri-39345557/"
-    },
-    {
-      "section": "Mondo e geopolitica",
-      "title": "Israele commemora le vittime del 7 ottobre",
-      "summary": "Israele commemora le vittime dell'attacco del 7 ottobre 2023 mentre il conflitto mediorientale continua a produrre conseguenze umanitarie, politiche e militari nell'intera regione.",
+      "title": "Garlasco, nuovi sviluppi sugli accertamenti del RIS",
+      "summary": "Il caso dell'omicidio di Chiara Poggi torna al centro dell'attenzione per un ulteriore test del Raggruppamento investigazioni scientifiche che, secondo quanto riferito da RaiNews, non sarebbe stato depositato. Gli sviluppi investigativi non modificano da soli le responsabilità già accertate in via definitiva e devono essere valutati nelle sedi giudiziarie.",
       "source": "RaiNews",
-      "url": "https://www.rainews.it/articoli/2026/10/7-ottobre-2023-il-trauma-di-israele-e-la-distruzione-di-gaza-3-anni-e-74mila-morti-dopo-271b4091-0995-437f-ad27-ac5e6f08b773.html"
+      "url": "https://www.rainews.it/"
+    },
+    {
+      "section": "Italia - Cronaca e giustizia",
+      "title": "Rimini, otto agenti della polizia locale indagati",
+      "summary": "Otto agenti della polizia locale di Rimini risultano indagati, secondo RaiNews, per ipotesi di reato che comprendono falso, violenza privata, calunnia e lesioni. Le accuse sono oggetto di indagine e vale la presunzione di non colpevolezza.",
+      "source": "RaiNews",
+      "url": "https://www.rainews.it/"
+    },
+    {
+      "section": "Economia, lavoro, imprese, fisco e pensioni",
+      "title": "Carburanti, governo valuta il ritorno delle accise mobili",
+      "summary": "Il governo valuta la possibilità di prorogare o riattivare la riduzione delle accise utilizzando l'extragettito dell'imposta sul valore aggiunto di settembre. Meloni ha indicato una disponibilità di circa centosettanta milioni di euro. La misura non è ancora stata definitivamente decisa.",
+      "source": "ANSA",
+      "url": "https://www.ansa.it/sito/notizie/politica/2026/10/07/meloni-valutiamo-accise-mobili-ma-spero-si-ripristini-pienamente-il-price-cap_70308abe-48ca-4134-bf86-e5657d48d1c0.html"
+    },
+    {
+      "section": "Economia, lavoro, imprese, fisco e pensioni",
+      "title": "Assaeroporti avverte sul costo del carburante per aviazione",
+      "summary": "Assaeroporti segnala che il forte aumento del jet fuel può tradursi in rincari dei biglietti e, se la situazione non migliora, anche in riduzioni dell'offerta di voli. Il carburante rappresenterebbe ormai circa il trentuno per cento dei costi indicati dal settore.",
+      "source": "ANSA",
+      "url": "https://www.ansa.it/sito/notizie/topnews/index.shtml"
+    },
+    {
+      "section": "Economia, lavoro, imprese, fisco e pensioni",
+      "title": "Export italiano, Tajani richiama il record del 2025",
+      "summary": "Il ministro degli Esteri Antonio Tajani ha ricordato che nel 2025 le esportazioni italiane hanno raggiunto seicentoquarantatré miliardi di euro, nonostante guerre, dazi e crisi energetica. Il dato è stato richiamato durante una conferenza dedicata all'internazionalizzazione delle imprese.",
+      "source": "Adnkronos",
+      "url": "https://www.adnkronos.com/economia/tajani-nel-2025-record-export-a-643-miliardi-nonostante-guerre-dazi-e-crisi-energia_7lIbzjJELJfjd3MrvbIVv2"
     },
     {
       "section": "Mondo e geopolitica",
-      "title": "Ucraina, attacchi su Kiev e altre città",
-      "summary": "Gli attacchi russi hanno interessato Kiev, Dnipro, Zaporizhzhia, Kremenchuk e altre aree. A Kiev sono state segnalate vittime e danni. Gli attacchi continuano a interessare anche infrastrutture industriali e di trasporto.",
-      "source": "Reuters",
-      "url": "https://www.reuters.com/world/europe/russia-strikes-ukraines-kyiv-fresh-wave-attacks-2026-10-07/"
+      "title": "Medio Oriente, petrolio e sicurezza dello Stretto di Hormuz restano centrali",
+      "summary": "Le tensioni legate alla guerra con l'Iran continuano a condizionare le rotte energetiche e i mercati. Gli Stati Uniti sostengono che i flussi petroliferi attraverso lo Stretto di Hormuz siano tornati vicini ai livelli precedenti al conflitto, ma il quadro resta instabile.",
+      "source": "Adnkronos",
+      "url": "https://www.adnkronos.com/internazionale/esteri/usa-iran-stretto-hormuz-aggiornamenti-oggi-ultime-news_1gaDUm3dVzNcgg8GONYRm0"
+    },
+    {
+      "section": "Mondo e geopolitica",
+      "title": "Ucraina, nuovi attacchi colpiscono civili e infrastrutture",
+      "summary": "La guerra in Ucraina continua con nuovi attacchi russi. RaiNews riferisce di vittime civili, mentre proseguono anche gli attacchi ucraini contro infrastrutture energetiche russe. Le operazioni militari incidono inoltre sulla sicurezza energetica internazionale.",
+      "source": "RaiNews",
+      "url": "https://www.rainews.it/"
     },
     {
       "section": "Europa e Unione europea",
-      "title": "Parlamento europeo, attenzione sul Medio Oriente",
-      "summary": "Il terzo anniversario dell'attacco del 7 ottobre continua ad alimentare il confronto politico nelle istituzioni europee, insieme al dibattito sulla situazione umanitaria e sulla sicurezza in Medio Oriente.",
+      "title": "Europarlamento: relazioni con la Cina a un punto critico",
+      "summary": "Il Parlamento europeo considera le relazioni tra Unione europea e Cina arrivate a un punto critico e chiede una politica capace di tutelare gli interessi europei. Nel dibattito rientrano anche il coordinamento con Stati Uniti e G7 sulla guerra in Ucraina e le relazioni economiche con Pechino.",
       "source": "ANSA",
-      "url": "https://www.ansa.it/europa/notizie/rubriche/altrenews/2026/10/05/picierno-accusa-rima-hassan-profanata-mostra-sul-7-ottobre-al-pe_80ff0ce7-e13b-4e01-960c-c42ac40b8fd2.html"
+      "url": "https://www.ansa.it/europa/notizie/rubriche/altrenews/2026/10/07/eurocamera-relazioni-con-cina-a-un-punto-critico-politica-tuteli-interessi-ue-2_4fc50d29-374f-4778-baf5-0952d52e784d.html"
     },
     {
       "section": "Scienza, medicina e salute pubblica",
-      "title": "Milano, diagnostica e intelligenza artificiale a confronto",
-      "summary": "Al Milano Innovation District il Bracco Innovation Day riunisce esperti internazionali sulle applicazioni dell'intelligenza artificiale nella diagnostica, sulle terapie avanzate e sulle conseguenze regolatorie dell'innovazione in medicina.",
-      "source": "Adnkronos",
-      "url": "https://www.adnkronos.com/cronaca/bracco-innovation-day-a-milano-la-diagnostica-mondiale-tra-ai-e-terapie-avanzate_4vIxnoMmA24TwxpHzMlhJS"
+      "title": "Nobel per la Chimica, la chiralità al centro del premio",
+      "summary": "Henri Kagan e Kenso Soai sono stati premiati per ricerche che permettono di favorire selettivamente una delle due forme speculari di determinate molecole. La capacità di controllare queste reazioni è particolarmente importante nello sviluppo e nella produzione sicura dei farmaci.",
+      "source": "Reuters",
+      "url": "https://www.reuters.com/world/kagan-soai-win-2026-nobel-chemistry-prize-2026-10-07/"
     },
     {
       "section": "Scienza, medicina e salute pubblica",
-      "title": "In Italia oltre dodici milioni di caregiver familiari",
-      "summary": "Più di dodici milioni di adulti italiani forniscono gratuitamente assistenza a familiari, parenti o amici. Circa quattro milioni e quattrocentomila svolgono un'attività assistenziale particolarmente intensa.",
-      "source": "ANSA",
-      "url": "https://www.ansa.it/canale_saluteebenessere/notizie/sanita/2026/10/06/in-italia-oltre-12-milioni-di-caregiver-familiari-e-la-giornata-europea_26afe26d-87bb-420d-ba9f-ce62cf05e0e4.html"
+      "title": "Peste in Siberia, l'Organizzazione mondiale della sanità chiede chiarimenti",
+      "summary": "L'Organizzazione mondiale della sanità ha chiesto chiarimenti dopo la morte di una ricercatrice di un istituto anti-peste di Irkutsk. Le autorità russe sostengono che la donna sia morta per una grave polmonite ed escludono casi di peste. Le informazioni restano oggetto di verifica internazionale.",
+      "source": "RaiNews",
+      "url": "https://www.rainews.it/"
     },
     {
       "section": "Tecnologia, intelligenza artificiale, digitale e cybersecurity",
-      "title": "Intelligenza artificiale sempre più presente nella diagnostica",
-      "summary": "Le applicazioni cliniche dell'intelligenza artificiale, la regolamentazione e l'integrazione delle nuove tecnologie nei sistemi sanitari sono tra i temi discussi dagli specialisti riuniti a Milano.",
-      "source": "Adnkronos",
-      "url": "https://www.adnkronos.com/cronaca/bracco-innovation-day-a-milano-la-diagnostica-mondiale-tra-ai-e-terapie-avanzate_4vIxnoMmA24TwxpHzMlhJS"
+      "title": "Fondo monetario: il boom dell'intelligenza artificiale porta opportunità e rischi",
+      "summary": "Kristalina Georgieva ha avvertito che la concentrazione degli investimenti nell'intelligenza artificiale potrebbe provocare instabilità se le aspettative di produttività e utili non venissero rispettate. Il Fondo stima però che, se gestita correttamente, l'intelligenza artificiale possa aggiungere circa mezzo punto percentuale alla crescita mondiale annua.",
+      "source": "Reuters",
+      "url": "https://www.reuters.com/world/asia-pacific/imf-chief-warns-energy-shock-growing-debt-ai-risks-threaten-global-growth-2026-10-07/"
+    },
+    {
+      "section": "Scuola, università, formazione e lavoro educativo",
+      "title": "Bergamo, orientamento scolastico sulle competenze richieste dall'economia digitale",
+      "summary": "Bergamo Sviluppo amplia le iniziative per avvicinare gli studenti alle professioni e al mercato del lavoro. Una delle novità riguarda l'impatto dell'intelligenza artificiale sulle competenze richieste dall'economia digitale, tema sempre più rilevante nell'orientamento scolastico.",
+      "source": "L'Eco di Bergamo",
+      "url": "https://www.ecodibergamo.it/stories/local/cronaca/bergamo/"
     },
     {
       "section": "Ambiente, clima, energia e trasporti",
-      "title": "Bergamo, fase più instabile con temporali e temperature in calo",
-      "summary": "Una saccatura atlantica interessa la Lombardia. Per Bergamo e provincia sono previste condizioni più instabili, con temporali e diminuzione delle temperature. Le previsioni restano soggette ad aggiornamento.",
-      "source": "BergamoNews",
-      "url": "https://www.bergamonews.it/2026/10/07/il-primo-assaggio-dautunno-temporali-e-temperature-in-calo/927276/"
+      "title": "Agenzia internazionale dell'energia accelera il rilascio delle riserve petrolifere",
+      "summary": "L'Agenzia internazionale dell'energia ha deciso di accelerare il rilascio delle scorte petrolifere già programmato, dando priorità al diesel. Circa cento milioni di barili del piano precedente devono ancora arrivare sul mercato. L'obiettivo è attenuare i prezzi record dei carburanti e le interruzioni dell'offerta legate ai conflitti.",
+      "source": "Reuters",
+      "url": "https://www.reuters.com/business/energy/iea-meet-wednesday-over-proposed-release-reserves-say-two-eu-diplomats-2026-10-07/"
+    },
+    {
+      "section": "Ambiente, clima, energia e trasporti",
+      "title": "Maltempo, temporali e allerta gialla in diverse regioni",
+      "summary": "Una fase di instabilità interessa l'Italia con temporali previsti soprattutto sulle regioni tirreniche e allerta gialla in sei regioni. Le previsioni meteorologiche possono cambiare e devono essere aggiornate con i bollettini territoriali.",
+      "source": "RaiNews",
+      "url": "https://www.rainews.it/"
     },
     {
       "section": "Cultura, libri, spettacolo e società",
-      "title": "BergamoScienza, appuntamenti tra neuroscienze e intelligenza artificiale",
-      "summary": "La programmazione cittadina comprende iniziative di BergamoScienza dedicate alle neuroscienze e al rapporto tra fotografia, verità, finzione e intelligenza artificiale. Gli eventi indicati sono appuntamenti programmati.",
+      "title": "Editoria italiana, record nelle vendite dei diritti di traduzione",
+      "summary": "I dati presentati in vista della Buchmesse di Francoforte indicano un record nel 2025 per la vendita all'estero dei diritti di traduzione dei libri italiani. L'Associazione Italiana Editori segnala inoltre una crescita del mercato trade nel 2026.",
+      "source": "ANSA",
+      "url": "https://www.ansa.it/sito/notizie/topnews/index.shtml"
+    },
+    {
+      "section": "Cultura, libri, spettacolo e società",
+      "title": "Bergamo, annunciata la nuova edizione di Librai per un anno",
+      "summary": "La rassegna bergamasca Librai per un anno proporrà sei incontri tra novembre e gennaio. Tra gli ospiti annunciati figurano Mario Calabresi, Marco Aime, Massimo Recalcati, Alessandro Bergonzoni e Gianni Riotta.",
       "source": "L'Eco di Bergamo",
-      "url": "https://www.ecodibergamo.it/eventi/eppen/data/2026/10/07/"
+      "url": "https://www.ecodibergamo.it/stories/premium/cultura-e-spettacoli/librai-per-un-anno-2026-a-bergamo-calabresi-e-recalcati-o_3967206_11/"
     },
     {
-      "section": "Cultura, libri, spettacolo e società",
-      "title": "Bergamo e provincia, spettacoli e incontri della serata",
-      "summary": "La programmazione culturale locale comprende spettacoli, letture, incontri e altre iniziative. Tra gli appuntamenti segnalati figura Andrea Pennacchi.",
-      "source": "BergamoNews",
-      "url": "https://www.bergamonews.it/2026/10/07/andrea-pennacchi-letture-scacchi-e-burraco-cosa-fare-stasera-a-bergamo-e-provincia/925784/"
+      "section": "Sport",
+      "title": "Tennis, Berrettini vince all'esordio a Shanghai",
+      "summary": "Matteo Berrettini ha superato lo statunitense Aleksandar Kovacevic in tre set al debutto nel torneo di Shanghai. Al prossimo turno affronterà Brandon Nakashima. Federico Cinà è invece uscito al primo turno contro Alex Molcan.",
+      "source": "ANSA",
+      "url": "https://www.ansa.it/sito/notizie/sport/tennis/tennis.shtml"
+    },
+    {
+      "section": "Sport",
+      "title": "Sinner chiude anticipatamente la stagione 2026",
+      "summary": "Jannik Sinner ha annunciato la conclusione anticipata della propria stagione per concentrarsi sul recupero fisico. La scelta comporta anche la perdita della posizione di numero uno mondiale entro fine anno, con Alexander Zverev destinato al sorpasso.",
+      "source": "ANSA",
+      "url": "https://www.ansa.it/sito/notizie/sport/tennis/tennis.shtml"
+    },
+    {
+      "section": "Sport",
+      "title": "Atalanta al lavoro verso la ripresa del campionato",
+      "summary": "L'Atalanta prosegue la preparazione in vista della ripresa del campionato. L'Eco di Bergamo segnala anche un intervento chirurgico per Pompei. La squadra lavora durante la pausa per preparare i prossimi impegni ufficiali.",
+      "source": "L'Eco di Bergamo",
+      "url": "https://www.ecodibergamo.it/stories/local/cronaca/bergamo/"
+    },
+    {
+      "section": "Mercati e finanza",
+      "title": "Borse mondiali ed euro in calo, petrolio vicino a cento dollari",
+      "summary": "Le borse mondiali hanno perso terreno mentre il petrolio è rimasto vicino ai cento dollari al barile. Pesano le tensioni mediorientali, i dubbi sulla politica dei tassi della Federal Reserve e le preoccupazioni per i conti pubblici francesi. L'euro ha perso terreno sul dollaro.",
+      "source": "Reuters",
+      "url": "https://www.reuters.com/world/china/global-markets-global-markets-2026-10-07/"
+    },
+    {
+      "section": "Mercati e finanza",
+      "title": "Deflussi dai mercati emergenti dopo la svolta più restrittiva della Federal Reserve",
+      "summary": "Gli investitori stranieri hanno ritirato circa ventisei miliardi e trecento milioni di dollari da azioni e obbligazioni dei mercati emergenti nel mese di settembre, primo deflusso mensile dopo una fase di afflussi. Tra le cause indicate vi sono tassi e rendimenti più elevati.",
+      "source": "Reuters",
+      "url": "https://www.reuters.com/business/finance/hawkish-fed-triggers-emerging-market-outflows-september-2026-10-07/"
     },
     {
       "section": "Agenda della giornata",
-      "title": "Bergamo, appuntamenti culturali e scientifici",
-      "summary": "Tra gli appuntamenti programmati figurano iniziative a Palazzo Frizzoni e incontri collegati a BergamoScienza. Gli eventi sono indicati come programmati e non come già avvenuti.",
-      "source": "L'Eco di Bergamo",
-      "url": "https://www.ecodibergamo.it/eventi/eppen/data/2026/10/07/"
+      "title": "8 ottobre, voto finale alla Camera sulla legge elettorale",
+      "summary": "Per giovedì 8 ottobre è previsto alla Camera il voto finale sulla riforma elettorale, dopo le dichiarazioni di voto. È un appuntamento programmato e non un esito già acquisito.",
+      "source": "ANSA",
+      "url": "https://www.ansa.it/sito/notizie/politica/2026/10/07/dal-premio-alle-preferenze-come-funziona-la-riforma_cb7f408a-5993-4ad9-b5ee-66c83b7a13a7.html"
+    },
+    {
+      "section": "Agenda della giornata",
+      "title": "8 ottobre, atteso il Nobel per la Letteratura",
+      "summary": "Dopo i Nobel scientifici, giovedì 8 ottobre è previsto a Stoccolma l'annuncio del premio Nobel per la Letteratura. Prima dell'annuncio ufficiale ogni indicazione sui possibili vincitori resta un pronostico.",
+      "source": "ANSA",
+      "url": "https://www.ansa.it/sito/notizie/topnews/index.shtml"
     },
     {
       "section": "Ultim'ora",
-      "title": "La giornata resta segnata dall'anniversario del 7 ottobre e dalla guerra in Ucraina",
-      "summary": "Alla chiusura dell'edizione restano sotto osservazione le manifestazioni legate al terzo anniversario del 7 ottobre, le misure di sicurezza adottate in diversi Paesi e gli sviluppi dei nuovi attacchi russi sull'Ucraina.",
-      "source": "ANSA e Reuters",
-      "url": "https://www.ansa.it/"
+      "title": "Petrolio chiude in lieve calo dopo la decisione dell'Agenzia internazionale dell'energia",
+      "summary": "Il Brent ha chiuso a circa cento dollari e venti centesimi al barile, in lieve calo, dopo la decisione dell'Agenzia internazionale dell'energia di accelerare il rilascio delle scorte. Restano però forti i rischi legati alle guerre in Medio Oriente e Ucraina e alle possibili interruzioni dell'offerta.",
+      "source": "Reuters",
+      "url": "https://www.reuters.com/business/energy/oil-prices-rise-storms-air-strikes-threaten-supply-2026-10-07/"
     }
   ]
 }
