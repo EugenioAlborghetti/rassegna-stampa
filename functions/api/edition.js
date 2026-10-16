@@ -1,4 +1,4 @@
-const valid=/^\d{4}-\d{2}-\d{2}$/;
+import {validDate, romeDate} from '../../lib/editorial.js';
 const repo='https://raw.githubusercontent.com/EugenioAlborghetti/rassegna-stampa/main/data/';
 const headers={'Cache-Control':'no-store'};
 function usable(x,date){return x&&x.date===date&&Array.isArray(x.items)&&x.items.length>0}
@@ -22,14 +22,20 @@ async function fromAssets(request,env,date){
 }
 export async function onRequestGet({request,env}){
   const date=new URL(request.url).searchParams.get('date')||'';
-  if(!valid.test(date))return Response.json({error:'Data non valida'},{status:400,headers});
-  const today=new Date().toISOString().slice(0,10);
+  if(!validDate(date))return Response.json({error:'Data non valida'},{status:400,headers});
+  const today=romeDate();
   if(date>today)return Response.json({error:'Data futura'},{status:400,headers});
-  // GitHub is authoritative: newly published or updated editions are visible without redeploy.
+  // An explicitly rebuilt server edition takes precedence over the published snapshot.
+  if(env.ARCHIVE){
+    try{
+      const saved=await env.ARCHIVE.get('edition:'+date,'json');
+      if(usable(saved,date))return Response.json({...saved,persisted:true,engine:'Archivio server'},{headers});
+    }catch{}
+  }
+  // Newly published editions remain visible without redeploy.
   let edition=await fromGitHub(date);
   let engine='GitHub';
   if(!edition){edition=await fromAssets(request,env,date);engine='Archivio distribuito'}
-  if(!edition&&env.ARCHIVE){try{edition=await env.ARCHIVE.get('edition:'+date,'json');engine='Archivio locale'}catch{}}
-  if(usable(edition,date))return Response.json({...edition,generated:false,engine},{headers});
+  if(usable(edition,date))return Response.json({...edition,persisted:true,engine},{headers});
   return Response.json({error:'Edizione non ancora pubblicata',date},{status:404,headers});
 }

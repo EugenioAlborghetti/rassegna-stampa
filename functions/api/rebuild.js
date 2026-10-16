@@ -1,85 +1,76 @@
-const sections=[
-['In primo piano','notizie Italia mondo'],
-['Bergamo città','Bergamo città cronaca'],
-['Provincia di Bergamo','provincia di Bergamo notizie'],
-['Lombardia','Lombardia cronaca'],
-['Italia - Politica e istituzioni','politica italiana governo parlamento'],
-['Economia, lavoro, imprese, fisco e pensioni','economia lavoro Italia'],
-['Mondo e geopolitica','notizie mondo geopolitica'],
-['Scienza, medicina e salute pubblica','scienza salute ricerca'],
-['Tecnologia, intelligenza artificiale, digitale e cybersecurity','tecnologia intelligenza artificiale'],
-['Scuola, università, formazione e lavoro educativo','scuola università Italia'],
-['Ambiente, clima, energia e trasporti','ambiente energia trasporti'],
-['Cultura, libri, spettacolo e società','cultura spettacolo Italia'],
-['Sport','sport calcio Italia']
+import {BUILD, TIME_ZONE, sections, validDate, romeDate, shiftDate, dateLabel,
+  parseFeed, parseDailyArchive, selectItems, json} from '../../lib/editorial.js';
+
+const pending = new Map();
+const directFeeds = [
+  ['In primo piano', 'ANSA', 'https://www.ansa.it/sito/ansait_rss.xml'],
+  ['In primo piano', 'RaiNews', 'https://www.rainews.it/rss/tutti'],
+  ['Sport', 'RaiNews Sport', 'https://www.rainews.it/rss/sport']
 ];
-const decode=s=>s.replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g,'$1').replace(/<[^>]+>/g,'').replace(/&amp;/g,'&').replace(/&quot;/g,'"').replace(/&#39;|&apos;/g,"'").replace(/&lt;/g,'<').replace(/&gt;/g,'>');
-const field=(s,k)=>{const start=s.indexOf('<'+k);if(start<0)return '';const a=s.indexOf('>',start);if(a<0)return '';const b=s.indexOf('</'+k+'>',a+1);return b<0?'':decode(s.slice(a+1,b)).trim()};
-const format=d=>new Intl.DateTimeFormat('it-IT',{day:'numeric',month:'long',year:'numeric',timeZone:'Europe/Rome'}).format(d);
-export async function onRequestPost({request,env}){
-  const date=new URL(request.url).searchParams.get('date')||'';
-  if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||!Number.isFinite(Date.parse(date+'T12:00:00Z')))return Response.json({error:'Data non valida'},{status:400});
-  const now=new Date(),target=new Date(date+'T12:00:00Z');
-  if(target.getTime()>now.getTime()+12*3600000)return Response.json({error:'Data futura'},{status:400});
-  const after=new Date(target);after.setUTCDate(after.getUTCDate()+1);
-  const end=after.toISOString().slice(0,10);
-  const diagnostics=[];
-  const feeds=[
-    ['In primo piano','ANSA','https://www.ansa.it/sito/ansait_rss.xml'],
-    ['In primo piano','RaiNews','https://www.rainews.it/rss/tutti'],
-    ['In primo piano','BBC Italia','https://feeds.bbci.co.uk/news/world/rss.xml'],
-    ['Mondo e geopolitica','Reuters','https://feeds.reuters.com/reuters/worldNews'],
-    ['Sport','RaiNews Sport','https://www.rainews.it/rss/sport']
-  ];
-  const dayRome=t=>new Intl.DateTimeFormat('sv-SE',{timeZone:'Europe/Rome',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(t));
-  async function parseFeed(section,name,url){
-    try{
-      const r=await fetch(url,{headers:{Accept:'application/rss+xml, application/atom+xml, application/xml, text/xml'},redirect:'follow',signal:AbortSignal.timeout(9000)});
-      if(!r.ok){diagnostics.push(name+': HTTP '+r.status);return []}
-      const xml=await r.text();
-      const blocks=[...xml.matchAll(/<(?:item|entry)(?:\s[^>]*)?>([\s\S]*?)<\/(?:item|entry)>/gi)].slice(0,120);
-      if(!blocks.length)diagnostics.push(name+': nessun elemento RSS');
-      return blocks.map(m=>{
-        const raw=m[1],title=field(raw,'title');
-        const pub=field(raw,'pubDate')||field(raw,'published')||field(raw,'updated');
-        let link=field(raw,'link');
-        if(!link){const tag=raw.match(/<link[^>]*href=["']([^"']+)["']/i);if(tag)link=tag[1]}
-        const stamp=Date.parse(pub);
-        if(!title||!link||!Number.isFinite(stamp)||dayRome(stamp)!==date)return null;
-        const summary=field(raw,'description')||field(raw,'summary');
-        return {section,title,summary:summary&&summary.length>35?summary.slice(0,420):'Notizia pubblicata da '+name+' il '+format(target)+'. Apri la fonte per leggere il testo completo.',source:name,url:link};
-      }).filter(Boolean);
-    }catch(e){diagnostics.push(name+': '+String(e).slice(0,100));return []}
+
+async function buildEdition(date, env) {
+  const now = new Date(), diagnostics = [];
+  async function text(url, name) {
+    try {
+      const response = await fetch(url, {headers: {Accept: 'application/rss+xml, application/xml, text/html'},
+        redirect: 'follow', signal: AbortSignal.timeout(7000)});
+      if (!response.ok) { diagnostics.push({source: name, status: response.status}); return ''; }
+      return await response.text();
+    } catch { diagnostics.push({source: name, error: 'Fonte temporaneamente non disponibile'}); return ''; }
   }
-  const results=await Promise.all(feeds.map(x=>parseFeed(...x)));
-  // GDELT DOC 2.0 supports date-scoped historical searches when live RSS has rolled over.
-  if(results.flat().length<3){
-    const searches=[
-      ['In primo piano','Italia'],
-      ['Bergamo città','Bergamo'],
-      ['Economia, lavoro, imprese, fisco e pensioni','economia']
-    ];
-    const start=date.replace(/-/g,'')+'000000';
-    const end=date.replace(/-/g,'')+'235959';
-    for(const [section,query] of searches){
-      try{
-        const params=new URLSearchParams({query:query+' sourcelang:italian',mode:'artlist',format:'json',maxrecords:'20',startdatetime:start,enddatetime:end});
-        const r=await fetch('https://api.gdeltproject.org/api/v2/doc/doc?'+params,{headers:{Accept:'application/json'},signal:AbortSignal.timeout(16000)});
-        if(!r.ok){diagnostics.push('GDELT '+query+': HTTP '+r.status);if(r.status===429)break;continue}
-        const data=await r.json();
-        const found=(data.articles||[]).filter(a=>a.url&&a.title&&a.seendate&&a.seendate.slice(0,8)===date.replace(/-/g,'')).map(a=>({
-          section,title:a.title,summary:'Articolo indicizzato il '+format(target)+'. Consultare la fonte originale per i dettagli.',
-          source:a.domain||'Archivio GDELT',url:a.url
-        }));
-        results.push(found);
-        if(results.flat().length>=3)break;
-      }catch(e){diagnostics.push('GDELT '+query+': '+String(e).slice(0,90))}
+  const archiveUrl = 'https://www.ecodibergamo.it/stories/archivio/data/' + encodeURIComponent(dateLabel(date)) + '/';
+  const archive = text(archiveUrl, 'Archivio L’Eco di Bergamo').then(html => parseDailyArchive(html, date));
+  // Rolling feeds help with recent dates. Historical requests use dated archives and searches.
+  const direct = date >= shiftDate(romeDate(now), -2)
+    ? Promise.all(directFeeds.map(async ([section, source, url]) =>
+      parseFeed(await text(url, source), {date, source, section}))) : Promise.resolve([]);
+  const indexed = [];
+  let cursor = 0;
+  // Bound provider concurrency and give every section an independent dated search.
+  await Promise.all(Array.from({length: 3}, async () => {
+    while (cursor < sections.length) {
+      const index = cursor++, [section, query] = sections[index];
+      const params = new URLSearchParams({
+        q: query + ' after:' + shiftDate(date, -1) + ' before:' + shiftDate(date, 1),
+        hl: 'it', gl: 'IT', ceid: 'IT:it'
+      });
+      const xml = await text('https://news.google.com/rss/search?' + params, 'Google News: ' + section);
+      indexed[index] = parseFeed(xml, {date, source: 'Google News', section, indexed: true});
     }
+  }));
+  const [archiveItems, directItems] = await Promise.all([archive, direct]);
+  // Direct article links take precedence over aggregator redirects for duplicate headlines.
+  const items = selectItems([...directItems.flat(), ...archiveItems, ...indexed.flat()]);
+  if (items.length < 3) return {error: 'Non ci sono ancora abbastanza notizie con data di pubblicazione corrispondente. Riprova più tardi o apri un’altra data.',
+    date, found: items.length, diagnostics, status: 503};
+  const present = new Set(items.map(x => x.section));
+  const edition = {
+    date, day: new Intl.DateTimeFormat('it-IT', {weekday: 'long', timeZone: TIME_ZONE}).format(new Date(date + 'T12:00:00Z')),
+    dateLabel: dateLabel(date), generatedAt: now.toISOString(), revision: crypto.randomUUID(), build: BUILD,
+    updated: 'ricostruita il ' + new Intl.DateTimeFormat('it-IT', {dateStyle: 'short', timeStyle: 'short', timeZone: TIME_ZONE}).format(now),
+    roman: 'Memoria liturgica non verificata', franciscan: 'Memoria francescana non verificata',
+    items, generated: true, engine: 'Archivi giornalieri, RSS e ricerche per data',
+    scope: 'Titoli, eventuali estratti e collegamenti. Le sezioni senza fonti datate restano vuote.',
+    coverage: {sections: present.size, totalSections: sections.length,
+      missingSections: sections.filter(([name]) => !present.has(name)).map(([name]) => name)},
+    diagnostics, persisted: false
+  };
+  if (env?.ARCHIVE) {
+    try {
+      await env.ARCHIVE.put('edition:' + date, JSON.stringify({...edition, persisted: true}));
+      edition.persisted = true;
+    } catch (error) { console.error('archive write failed', error); }
   }
-  const seen=new Set(),items=results.flat().filter(x=>{const k=x.title.toLocaleLowerCase('it').replace(/[^a-zà-ÿ0-9]/g,'').slice(0,85);if(seen.has(k))return false;seen.add(k);return true});
-  if(items.length<3)return Response.json({error:(diagnostics.some(x=>x.includes('HTTP 429'))?'Archivio storico temporaneamente limitato (HTTP 429). Evitare tentativi ripetuti. ':'Fonti insufficienti. ')+items.length+' notizie valide. '+diagnostics.filter(x=>x.startsWith('GDELT')).concat(diagnostics.filter(x=>!x.startsWith('GDELT'))).slice(0,5).join('; '),date,found:items.length},{status:503});
-  const day=new Intl.DateTimeFormat('it-IT',{weekday:'long',timeZone:'Europe/Rome'}).format(target);
-  const edition={date,day,dateLabel:format(target),updated:'ricostruita il '+new Intl.DateTimeFormat('it-IT',{dateStyle:'short',timeStyle:'short',timeZone:'Europe/Rome'}).format(now),roman:'Memoria liturgica non verificata',franciscan:'Memoria francescana non verificata',items,generated:true,engine:'Ricostruzione da titoli di fonti indicizzate',scope:'Titoli e link, non sintesi giornalistiche verificate'};
-  if(env?.ARCHIVE){try{await env.ARCHIVE.put('edition:'+date,JSON.stringify(edition));edition.persisted=true}catch(e){console.error('archive write failed',e);edition.persisted=false}}else{edition.persisted=false}
-  return Response.json(edition,{headers:{'Cache-Control':'no-store'}});
+  return edition;
+}
+
+export async function onRequestPost({request, env = {}}) {
+  const date = new URL(request.url).searchParams.get('date') || '';
+  if (!validDate(date)) return json({error: 'Data non valida'}, 400);
+  if (date > romeDate()) return json({error: 'Data futura'}, 400);
+  // Coalesce duplicate clicks while a rebuild is running. A later click starts a new revision.
+  if (!pending.has(date)) pending.set(date, buildEdition(date, env).finally(() => pending.delete(date)));
+  const result = await pending.get(date);
+  const {status = 200, ...body} = result;
+  return json(body, status);
 }

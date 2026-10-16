@@ -6,3 +6,7 @@ README.md
 DEPLOY_CLOUDFLARE.txt
 tests.py
 .git*
+lib/
+tests/
+scripts/
+package.json
