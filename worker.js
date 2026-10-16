@@ -4,6 +4,7 @@ import { onRequestPost as rebuildPost } from './functions/api/rebuild.js';
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
+    if (url.pathname === '/api/version') return Response.json({build:'2026-10-16-historical-sequential-v2',historicalSearch:'GDELT sequential',queries:3,timeoutMs:16000,serverTime:new Date().toISOString()},{headers:{'Cache-Control':'no-store, max-age=0','Access-Control-Allow-Origin':'*'}});
 
     if (url.pathname === '/api/rebuild') {
       if (request.method !== 'POST') return new Response('Method Not Allowed', {status:405});
