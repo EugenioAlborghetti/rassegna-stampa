@@ -24,24 +24,34 @@ export async function onRequestPost({request}){
   const after=new Date(target);after.setUTCDate(after.getUTCDate()+1);
   const end=after.toISOString().slice(0,10);
   const diagnostics=[];
-  const results=await Promise.all(sections.map(async ([section,query])=>{
-    const q=query+' after:'+date+' before:'+end;
-    const url='https://news.google.com/rss/search?q='+encodeURIComponent(q)+'&hl=it&gl=IT&ceid=IT:it';
+  const feeds=[
+    ['In primo piano','ANSA','https://www.ansa.it/sito/ansait_rss.xml'],
+    ['In primo piano','RaiNews','https://www.rainews.it/rss/tutti'],
+    ['In primo piano','BBC Italia','https://feeds.bbci.co.uk/news/world/rss.xml'],
+    ['Mondo e geopolitica','Reuters','https://feeds.reuters.com/reuters/worldNews'],
+    ['Sport','RaiNews Sport','https://www.rainews.it/rss/sport']
+  ];
+  const dayRome=t=>new Intl.DateTimeFormat('sv-SE',{timeZone:'Europe/Rome',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(t));
+  async function parseFeed(section,name,url){
     try{
-      const r=await fetch(url,{headers:{'Accept':'application/rss+xml, application/xml, text/xml'}});
-      if(!r.ok){diagnostics.push(section+': HTTP '+r.status);return []}
+      const r=await fetch(url,{headers:{Accept:'application/rss+xml, application/atom+xml, application/xml, text/xml'},redirect:'follow',signal:AbortSignal.timeout(9000)});
+      if(!r.ok){diagnostics.push(name+': HTTP '+r.status);return []}
       const xml=await r.text();
-      const matches=[...xml.matchAll(/<item>([\s\S]*?)<\/item>/g)];
-      if(!matches.length)diagnostics.push(section+': RSS senza articoli');
-      return matches.slice(0,20).map(m=>{
-        const raw=m[1],title=field(raw,'title'),link=field(raw,'link'),source=field(raw,'source')||'Google News',pub=field(raw,'pubDate');
+      const blocks=[...xml.matchAll(/<(?:item|entry)(?:\s[^>]*)?>([\s\S]*?)<\/(?:item|entry)>/gi)].slice(0,120);
+      if(!blocks.length)diagnostics.push(name+': nessun elemento RSS');
+      return blocks.map(m=>{
+        const raw=m[1],title=field(raw,'title');
+        const pub=field(raw,'pubDate')||field(raw,'published')||field(raw,'updated');
+        let link=field(raw,'link');
+        if(!link){const tag=raw.match(/<link[^>]*href=["']([^"']+)["']/i);if(tag)link=tag[1]}
         const stamp=Date.parse(pub);
-        if(!title||!link||!Number.isFinite(stamp)||new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Rome',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(stamp))!==date)return null;
-        const clean=title.endsWith(' - '+source)?title.slice(0,-source.length-3):title;
-        return {section,title:clean,summary:'Titolo pubblicato il '+format(target)+' da '+source+'. Apri la fonte per leggere i dettagli verificati: la ricostruzione automatica non dispone di una sintesi editoriale confermata.',source,url:link};
+        if(!title||!link||!Number.isFinite(stamp)||dayRome(stamp)!==date)return null;
+        const summary=field(raw,'description')||field(raw,'summary');
+        return {section,title,summary:summary&&summary.length>35?summary.slice(0,420):'Notizia pubblicata da '+name+' il '+format(target)+'. Apri la fonte per leggere il testo completo.',source:name,url:link};
       }).filter(Boolean);
-    }catch(e){diagnostics.push(section+': '+String(e).slice(0,100));return []}
-  }));
+    }catch(e){diagnostics.push(name+': '+String(e).slice(0,100));return []}
+  }
+  const results=await Promise.all(feeds.map(x=>parseFeed(...x)));
   const seen=new Set(),items=results.flat().filter(x=>{const k=x.title.toLocaleLowerCase('it').replace(/[^a-zà-ÿ0-9]/g,'').slice(0,85);if(seen.has(k))return false;seen.add(k);return true});
   if(items.length<3)return Response.json({error:'Fonti insufficienti: '+items.length+' notizie valide. '+diagnostics.slice(0,3).join('; '),date,found:items.length},{status:503});
   const day=new Intl.DateTimeFormat('it-IT',{weekday:'long',timeZone:'Europe/Rome'}).format(target);
