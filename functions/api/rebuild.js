@@ -34,7 +34,7 @@ export async function onRequestPost({request}){
         const raw=m[1],title=field(raw,'title'),link=field(raw,'link'),source=field(raw,'source')||'Google News',pub=field(raw,'pubDate');
         const stamp=Date.parse(pub);
         if(!title||!link||!Number.isFinite(stamp)||new Date(stamp).toISOString().slice(0,10)!==date)return null;
-        const clean=title.replace(new RegExp('\\s+-\\s+'+source.replace(/[.*+?^$()|[\\]{}]/g,'\\$&')+'$','i'),'');
+        const clean=title.endsWith(' - '+source)?title.slice(0,-source.length-3):title;
         return {section,title:clean,summary:'Titolo pubblicato il '+format(target)+' da '+source+'. Apri la fonte per leggere i dettagli verificati: la ricostruzione automatica non dispone di una sintesi editoriale confermata.',source,url:link};
       }).filter(Boolean);
     }catch{return []}
