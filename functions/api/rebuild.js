@@ -64,7 +64,7 @@ export async function onRequestPost({request}){
       try{
         const start=date.replace(/-/g,'')+'000000';
         const end=date.replace(/-/g,'')+'235959';
-        const url='https://api.gdeltproject.org/api/v2/doc/doc?query='+encodeURIComponent(query)+'&mode=artlist&format=json&maxrecords=75&startdatetime='+start+'&enddatetime='+end;
+        const url='https://api.gdeltproject.org/api/v2/doc/doc?query='+encodeURIComponent(query+' sourcelang:italian')+'&mode=artlist&format=json&maxrecords=75&startdatetime='+start+'&enddatetime='+end;
         const r=await fetch(url,{headers:{Accept:'application/json'},signal:AbortSignal.timeout(9000)});
         if(!r.ok){diagnostics.push('GDELT '+query+': HTTP '+r.status);return []}
         const data=await r.json();
@@ -77,7 +77,7 @@ export async function onRequestPost({request}){
     results.push(...gdelt);
   }
   const seen=new Set(),items=results.flat().filter(x=>{const k=x.title.toLocaleLowerCase('it').replace(/[^a-zà-ÿ0-9]/g,'').slice(0,85);if(seen.has(k))return false;seen.add(k);return true});
-  if(items.length<3)return Response.json({error:'Fonti insufficienti: '+items.length+' notizie valide. '+diagnostics.slice(0,3).join('; '),date,found:items.length},{status:503});
+  if(items.length<3)return Response.json({error:'Fonti insufficienti: '+items.length+' notizie valide. '+diagnostics.filter(x=>x.startsWith('GDELT')).concat(diagnostics.filter(x=>!x.startsWith('GDELT'))).slice(0,5).join('; '),date,found:items.length},{status:503});
   const day=new Intl.DateTimeFormat('it-IT',{weekday:'long',timeZone:'Europe/Rome'}).format(target);
   const edition={date,day,dateLabel:format(target),updated:'ricostruita il '+new Intl.DateTimeFormat('it-IT',{dateStyle:'short',timeStyle:'short',timeZone:'Europe/Rome'}).format(now),roman:'Memoria liturgica non verificata',franciscan:'Memoria francescana non verificata',items,generated:true,engine:'Ricostruzione da titoli di fonti indicizzate',scope:'Titoli e link, non sintesi giornalistiche verificate'};
   return Response.json(edition,{headers:{'Cache-Control':'no-store'}});
