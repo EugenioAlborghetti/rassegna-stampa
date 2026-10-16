@@ -16,7 +16,7 @@ const sections=[
 const decode=s=>s.replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g,'$1').replace(/<[^>]+>/g,'').replace(/&amp;/g,'&').replace(/&quot;/g,'"').replace(/&#39;|&apos;/g,"'").replace(/&lt;/g,'<').replace(/&gt;/g,'>');
 const field=(s,k)=>{const start=s.indexOf('<'+k);if(start<0)return '';const a=s.indexOf('>',start);if(a<0)return '';const b=s.indexOf('</'+k+'>',a+1);return b<0?'':decode(s.slice(a+1,b)).trim()};
 const format=d=>new Intl.DateTimeFormat('it-IT',{day:'numeric',month:'long',year:'numeric',timeZone:'Europe/Rome'}).format(d);
-export async function onRequestPost({request}){
+export async function onRequestPost({request,env}){
   const date=new URL(request.url).searchParams.get('date')||'';
   if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||!Number.isFinite(Date.parse(date+'T12:00:00Z')))return Response.json({error:'Data non valida'},{status:400});
   const now=new Date(),target=new Date(date+'T12:00:00Z');
@@ -80,5 +80,6 @@ export async function onRequestPost({request}){
   if(items.length<3)return Response.json({error:(diagnostics.some(x=>x.includes('HTTP 429'))?'Archivio storico temporaneamente limitato (HTTP 429). Evitare tentativi ripetuti. ':'Fonti insufficienti. ')+items.length+' notizie valide. '+diagnostics.filter(x=>x.startsWith('GDELT')).concat(diagnostics.filter(x=>!x.startsWith('GDELT'))).slice(0,5).join('; '),date,found:items.length},{status:503});
   const day=new Intl.DateTimeFormat('it-IT',{weekday:'long',timeZone:'Europe/Rome'}).format(target);
   const edition={date,day,dateLabel:format(target),updated:'ricostruita il '+new Intl.DateTimeFormat('it-IT',{dateStyle:'short',timeStyle:'short',timeZone:'Europe/Rome'}).format(now),roman:'Memoria liturgica non verificata',franciscan:'Memoria francescana non verificata',items,generated:true,engine:'Ricostruzione da titoli di fonti indicizzate',scope:'Titoli e link, non sintesi giornalistiche verificate'};
+  if(env?.ARCHIVE){try{await env.ARCHIVE.put('edition:'+date,JSON.stringify(edition));edition.persisted=true}catch(e){console.error('archive write failed',e);edition.persisted=false}}else{edition.persisted=false}
   return Response.json(edition,{headers:{'Cache-Control':'no-store'}});
 }
