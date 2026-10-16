@@ -46,7 +46,8 @@ async function loadLiturgy(d, id) {
   try {
     const response = await fetch('/api/liturgy?date=' + encodeURIComponent(d), {cache: 'no-store', signal: controller.signal});
     const value = await response.json();
-    if (id !== requestId || !response.ok || value.date !== d || value.version !== 1) return;
+    if (id !== requestId) return;
+    if (!response.ok || value.date !== d || value.version !== 1) throw Error('Calendario temporaneamente non disponibile');
     liturgies.set(d, value);
     if (value.complete) {try {localStorage.setItem('liturgy:' + d, JSON.stringify(value));} catch {}}
     applyLiturgy(value); renderLiturgy();

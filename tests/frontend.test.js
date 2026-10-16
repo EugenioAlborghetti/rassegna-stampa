@@ -143,3 +143,12 @@ test('late calendar responses cannot replace the calendar of the selected day', 
   assert.match(ui.node('liturgical').innerHTML, /2026-10-12/);
   assert.doesNotMatch(ui.node('liturgical').innerHTML, /2026-10-11/);
 });
+
+test('a calendar service error displays its source link and leaves the news available', async () => {
+  const ui = await app(async () => {throw Error('No news request expected');},
+    async () => Response.json({error:'Unavailable'}, {status:503}));
+  await ui.run('loadLiturgy(selectedDate, requestId)');
+  assert.match(ui.node('liturgical').innerHTML, /temporaneamente non disponibile/);
+  assert.match(ui.node('liturgical').innerHTML, /Consulta la fonte ufficiale/);
+  assert.match(ui.node('news').innerHTML, /Notizia/);
+});
