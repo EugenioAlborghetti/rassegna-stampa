@@ -13,12 +13,12 @@ const sections=[
 ['Cultura, libri, spettacolo e società','cultura spettacolo Italia'],
 ['Sport','sport calcio Italia']
 ];
-const decode=s=>s.replace(/<!\\[CDATA\\[([\\s\\S]*?)\\]\\]>/g,'$1').replace(/<[^>]+>/g,'').replace(/&amp;/g,'&').replace(/&quot;/g,'"').replace(/&#39;|&apos;/g,"'").replace(/&lt;/g,'<').replace(/&gt;/g,'>');
-const field=(s,k)=>decode((s.match(new RegExp('<'+k+'(?:\\s[^>]*)?>([\\s\\S]*?)</'+k+'>','i'))||[])[1]||'').trim();
+const decode=s=>s.replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g,'$1').replace(/<[^>]+>/g,'').replace(/&amp;/g,'&').replace(/&quot;/g,'"').replace(/&#39;|&apos;/g,"'").replace(/&lt;/g,'<').replace(/&gt;/g,'>');
+const field=(s,k)=>decode((s.match(new RegExp('<'+k+'(?:\s[^>]*)?>([\s\S]*?)</'+k+'>','i'))||[])[1]||'').trim();
 const format=d=>new Intl.DateTimeFormat('it-IT',{day:'numeric',month:'long',year:'numeric',timeZone:'Europe/Rome'}).format(d);
 export async function onRequestPost({request}){
   const date=new URL(request.url).searchParams.get('date')||'';
-  if(!/^\\d{4}-\\d{2}-\\d{2}$/.test(date)||!Number.isFinite(Date.parse(date+'T12:00:00Z')))return Response.json({error:'Data non valida'},{status:400});
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||!Number.isFinite(Date.parse(date+'T12:00:00Z')))return Response.json({error:'Data non valida'},{status:400});
   const now=new Date(),target=new Date(date+'T12:00:00Z');
   if(target.getTime()>now.getTime()+12*3600000)return Response.json({error:'Data futura'},{status:400});
   const after=new Date(target);after.setUTCDate(after.getUTCDate()+1);
@@ -30,7 +30,7 @@ export async function onRequestPost({request}){
       const r=await fetch(url,{headers:{'User-Agent':'Mozilla/5.0 (compatible; RassegnaStampa/1.0)'}});
       if(!r.ok)return [];
       const xml=await r.text();
-      return [...xml.matchAll(/<item>([\\s\\S]*?)<\\/item>/g)].slice(0,4).map(m=>{
+      return [...xml.matchAll(/<item>([\s\S]*?)<\/item>/g)].slice(0,4).map(m=>{
         const raw=m[1],title=field(raw,'title'),link=field(raw,'link'),source=field(raw,'source')||'Google News',pub=field(raw,'pubDate');
         const stamp=Date.parse(pub);
         if(!title||!link||!Number.isFinite(stamp)||new Date(stamp).toISOString().slice(0,10)!==date)return null;
