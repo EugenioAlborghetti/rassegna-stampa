@@ -1,8 +1,14 @@
 import { onRequestGet as editionGet } from './functions/api/edition.js';
+import { onRequestPost as rebuildPost } from './functions/api/rebuild.js';
 
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
+
+    if (url.pathname === '/api/rebuild') {
+      if (request.method !== 'POST') return new Response('Method Not Allowed', {status:405});
+      try { return await rebuildPost({request,env}); } catch(error) { console.error('rebuild error',error); return Response.json({error:'Ricostruzione temporaneamente non disponibile'},{status:503}); }
+    }
 
     if (url.pathname === '/api/edition') {
       if (request.method !== 'GET') {
