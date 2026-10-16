@@ -57,24 +57,24 @@ export async function onRequestPost({request}){
     const searches=[
       ['In primo piano','Italia'],
       ['Bergamo città','Bergamo'],
-      ['Mondo e geopolitica','international'],
       ['Economia, lavoro, imprese, fisco e pensioni','economia']
     ];
-    const gdelt=await Promise.all(searches.map(async ([section,query])=>{
+    const start=date.replace(/-/g,'')+'000000';
+    const end=date.replace(/-/g,'')+'235959';
+    for(const [section,query] of searches){
       try{
-        const start=date.replace(/-/g,'')+'000000';
-        const end=date.replace(/-/g,'')+'235959';
-        const url='https://api.gdeltproject.org/api/v2/doc/doc?query='+encodeURIComponent(query+' sourcelang:italian')+'&mode=artlist&format=json&maxrecords=75&startdatetime='+start+'&enddatetime='+end;
-        const r=await fetch(url,{headers:{Accept:'application/json'},signal:AbortSignal.timeout(9000)});
-        if(!r.ok){diagnostics.push('GDELT '+query+': HTTP '+r.status);return []}
+        const params=new URLSearchParams({query:query+' sourcelang:italian',mode:'artlist',format:'json',maxrecords:'20',startdatetime:start,enddatetime:end});
+        const r=await fetch('https://api.gdeltproject.org/api/v2/doc/doc?'+params,{headers:{Accept:'application/json'},signal:AbortSignal.timeout(16000)});
+        if(!r.ok){diagnostics.push('GDELT '+query+': HTTP '+r.status);continue}
         const data=await r.json();
-        return (data.articles||[]).filter(a=>a.url&&a.title&&a.seendate&&a.seendate.slice(0,8)===date.replace(/-/g,'')).map(a=>({
-          section,title:a.title,summary:'Articolo indicizzato nell’archivio storico il '+format(target)+'. Consultare la fonte originale per i dettagli.',
+        const found=(data.articles||[]).filter(a=>a.url&&a.title&&a.seendate&&a.seendate.slice(0,8)===date.replace(/-/g,'')).map(a=>({
+          section,title:a.title,summary:'Articolo indicizzato il '+format(target)+'. Consultare la fonte originale per i dettagli.',
           source:a.domain||'Archivio GDELT',url:a.url
         }));
-      }catch(e){diagnostics.push('GDELT '+query+': '+String(e).slice(0,90));return []}
-    }));
-    results.push(...gdelt);
+        results.push(found);
+        if(results.flat().length>=3)break;
+      }catch(e){diagnostics.push('GDELT '+query+': '+String(e).slice(0,90))}
+    }
   }
   const seen=new Set(),items=results.flat().filter(x=>{const k=x.title.toLocaleLowerCase('it').replace(/[^a-zà-ÿ0-9]/g,'').slice(0,85);if(seen.has(k))return false;seen.add(k);return true});
   if(items.length<3)return Response.json({error:'Fonti insufficienti: '+items.length+' notizie valide. '+diagnostics.filter(x=>x.startsWith('GDELT')).concat(diagnostics.filter(x=>!x.startsWith('GDELT'))).slice(0,5).join('; '),date,found:items.length},{status:503});
