@@ -52,6 +52,30 @@ export async function onRequestPost({request}){
     }catch(e){diagnostics.push(name+': '+String(e).slice(0,100));return []}
   }
   const results=await Promise.all(feeds.map(x=>parseFeed(...x)));
+  // GDELT DOC 2.0 supports date-scoped historical searches when live RSS has rolled over.
+  if(results.flat().length<3){
+    const searches=[
+      ['In primo piano','Italia'],
+      ['Bergamo città','Bergamo'],
+      ['Mondo e geopolitica','international'],
+      ['Economia, lavoro, imprese, fisco e pensioni','economia']
+    ];
+    const gdelt=await Promise.all(searches.map(async ([section,query])=>{
+      try{
+        const start=date.replace(/-/g,'')+'000000';
+        const end=date.replace(/-/g,'')+'235959';
+        const url='https://api.gdeltproject.org/api/v2/doc/doc?query='+encodeURIComponent(query)+'&mode=artlist&format=json&maxrecords=75&startdatetime='+start+'&enddatetime='+end;
+        const r=await fetch(url,{headers:{Accept:'application/json'},signal:AbortSignal.timeout(9000)});
+        if(!r.ok){diagnostics.push('GDELT '+query+': HTTP '+r.status);return []}
+        const data=await r.json();
+        return (data.articles||[]).filter(a=>a.url&&a.title&&a.seendate&&a.seendate.slice(0,8)===date.replace(/-/g,'')).map(a=>({
+          section,title:a.title,summary:'Articolo indicizzato nell’archivio storico il '+format(target)+'. Consultare la fonte originale per i dettagli.',
+          source:a.domain||'Archivio GDELT',url:a.url
+        }));
+      }catch(e){diagnostics.push('GDELT '+query+': '+String(e).slice(0,90));return []}
+    }));
+    results.push(...gdelt);
+  }
   const seen=new Set(),items=results.flat().filter(x=>{const k=x.title.toLocaleLowerCase('it').replace(/[^a-zà-ÿ0-9]/g,'').slice(0,85);if(seen.has(k))return false;seen.add(k);return true});
   if(items.length<3)return Response.json({error:'Fonti insufficienti: '+items.length+' notizie valide. '+diagnostics.slice(0,3).join('; '),date,found:items.length},{status:503});
   const day=new Intl.DateTimeFormat('it-IT',{weekday:'long',timeZone:'Europe/Rome'}).format(target);
