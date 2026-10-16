@@ -14,7 +14,7 @@ const sections=[
 ['Sport','sport calcio Italia']
 ];
 const decode=s=>s.replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g,'$1').replace(/<[^>]+>/g,'').replace(/&amp;/g,'&').replace(/&quot;/g,'"').replace(/&#39;|&apos;/g,"'").replace(/&lt;/g,'<').replace(/&gt;/g,'>');
-const field=(s,k)=>decode((s.match(new RegExp('<'+k+'(?:\s[^>]*)?>([\s\S]*?)</'+k+'>','i'))||[])[1]||'').trim();
+const field=(s,k)=>{const start=s.indexOf('<'+k);if(start<0)return '';const a=s.indexOf('>',start);if(a<0)return '';const b=s.indexOf('</'+k+'>',a+1);return b<0?'':decode(s.slice(a+1,b)).trim()};
 const format=d=>new Intl.DateTimeFormat('it-IT',{day:'numeric',month:'long',year:'numeric',timeZone:'Europe/Rome'}).format(d);
 export async function onRequestPost({request}){
   const date=new URL(request.url).searchParams.get('date')||'';
