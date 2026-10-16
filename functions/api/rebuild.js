@@ -65,7 +65,7 @@ export async function onRequestPost({request}){
       try{
         const params=new URLSearchParams({query:query+' sourcelang:italian',mode:'artlist',format:'json',maxrecords:'20',startdatetime:start,enddatetime:end});
         const r=await fetch('https://api.gdeltproject.org/api/v2/doc/doc?'+params,{headers:{Accept:'application/json'},signal:AbortSignal.timeout(16000)});
-        if(!r.ok){diagnostics.push('GDELT '+query+': HTTP '+r.status);continue}
+        if(!r.ok){diagnostics.push('GDELT '+query+': HTTP '+r.status);if(r.status===429)break;continue}
         const data=await r.json();
         const found=(data.articles||[]).filter(a=>a.url&&a.title&&a.seendate&&a.seendate.slice(0,8)===date.replace(/-/g,'')).map(a=>({
           section,title:a.title,summary:'Articolo indicizzato il '+format(target)+'. Consultare la fonte originale per i dettagli.',
@@ -77,7 +77,7 @@ export async function onRequestPost({request}){
     }
   }
   const seen=new Set(),items=results.flat().filter(x=>{const k=x.title.toLocaleLowerCase('it').replace(/[^a-zà-ÿ0-9]/g,'').slice(0,85);if(seen.has(k))return false;seen.add(k);return true});
-  if(items.length<3)return Response.json({error:'Fonti insufficienti: '+items.length+' notizie valide. '+diagnostics.filter(x=>x.startsWith('GDELT')).concat(diagnostics.filter(x=>!x.startsWith('GDELT'))).slice(0,5).join('; '),date,found:items.length},{status:503});
+  if(items.length<3)return Response.json({error:(diagnostics.some(x=>x.includes('HTTP 429'))?'Archivio storico temporaneamente limitato (HTTP 429). Evitare tentativi ripetuti. ':'Fonti insufficienti. ')+items.length+' notizie valide. '+diagnostics.filter(x=>x.startsWith('GDELT')).concat(diagnostics.filter(x=>!x.startsWith('GDELT'))).slice(0,5).join('; '),date,found:items.length},{status:503});
   const day=new Intl.DateTimeFormat('it-IT',{weekday:'long',timeZone:'Europe/Rome'}).format(target);
   const edition={date,day,dateLabel:format(target),updated:'ricostruita il '+new Intl.DateTimeFormat('it-IT',{dateStyle:'short',timeStyle:'short',timeZone:'Europe/Rome'}).format(now),roman:'Memoria liturgica non verificata',franciscan:'Memoria francescana non verificata',items,generated:true,engine:'Ricostruzione da titoli di fonti indicizzate',scope:'Titoli e link, non sintesi giornalistiche verificate'};
   return Response.json(edition,{headers:{'Cache-Control':'no-store'}});
