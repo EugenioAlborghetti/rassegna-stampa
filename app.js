@@ -112,19 +112,30 @@ async function load(d, force = false) {
   $('status').textContent = 'Caricamento dell’edizione…';
   let value = !force && localGet(d);
   if (!value && !force) value = window.ARCHIVE_DATA?.[d] || (window.INITIAL_DATA?.date === d ? window.INITIAL_DATA : null);
+  // Refresh reconstructions created by the older engine, which lacked publication-day evidence.
+  const outdated = value?.generated && value.items.some(item => item.publishedDate !== d) ? value : null;
+  if (outdated) value = null;
   if (value) { ed = value; localSaved = localPut(value); render(); return; }
   try {
     const response = await fetch('/api/edition?date=' + encodeURIComponent(d), {cache: 'no-store', signal: controller.signal});
     value = await response.json();
     if (id !== requestId) return;
     if (!response.ok) {
-      if (response.status === 404 && d === today()) return rebuild(d);
+      if (response.status === 404 && d === today()) {
+        if (outdated) {ed = outdated; localSaved = true; render();}
+        return rebuild(d);
+      }
       throw Error(value.error || 'Servizio temporaneamente non disponibile.');
     }
     if (value.date !== d || !value.items?.length) throw Error('L’edizione ricevuta non corrisponde alla data scelta.');
     ed = value; localSaved = localPut(value); render();
   } catch (error) {
     if (id !== requestId) return;
+    if (outdated) {
+      ed = outdated; localSaved = true; render();
+      $('status').textContent = 'Edizione precedente conservata. Per aggiornarla premi Ricostruisci e registra.';
+      return;
+    }
     missing(error instanceof Error ? error.message : String(error));
   }
 }

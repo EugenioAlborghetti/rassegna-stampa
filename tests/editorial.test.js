@@ -73,7 +73,7 @@ test('historical rebuild works from the daily archive when all search providers 
   assert.ok(result.items.every(item => item.publishedDate === date));
   assert.equal(result.persisted, false);
   assert.ok(calls.every(url => !url.includes('gdeltproject') && !url.includes('reuters')));
-  assert.equal(calls.length, 17);
+  assert.ok(calls.length <= 4, 'A provider outage must not trigger repeated section queries');
 });
 
 test('repeated completed rebuilds create new revisions and persist the exact returned revision', async t => {

@@ -99,3 +99,16 @@ test('missing current edition is reconstructed automatically on opening', async 
   assert.deepEqual(calls, ['GET', 'POST']);
   assert.match(ui.node('news').innerHTML, /Notizia/);
 });
+
+test('legacy reconstructions are refreshed instead of hiding the newly published edition', async () => {
+  let calls = 0;
+  const replacement = {...sample(romeDate()), generated: true};
+  replacement.items[0].title = 'Edizione aggiornata';
+  replacement.items[0].publishedDate = romeDate();
+  const ui = await app(async () => {calls++; return Response.json(replacement);});
+  ui.storage['rassegna:' + romeDate()] = JSON.stringify({...sample(romeDate()), generated: true});
+  await ui.run('load(today())');
+  assert.equal(calls, 1);
+  assert.match(ui.node('news').innerHTML, /Edizione aggiornata/);
+  assert.equal(JSON.parse(ui.storage['rassegna:' + romeDate()]).items[0].publishedDate, romeDate());
+});

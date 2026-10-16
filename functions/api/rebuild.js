@@ -25,16 +25,18 @@ async function buildEdition(date, env) {
     ? Promise.all(directFeeds.map(async ([section, source, url]) =>
       parseFeed(await text(url, source), {date, source, section}))) : Promise.resolve([]);
   const indexed = [];
-  let cursor = 0;
+  let cursor = 0, searchUnavailable = false;
   // Bound provider concurrency and give every section an independent dated search.
   await Promise.all(Array.from({length: 3}, async () => {
-    while (cursor < sections.length) {
+    while (!searchUnavailable && cursor < sections.length) {
       const index = cursor++, [section, query] = sections[index];
       const params = new URLSearchParams({
         q: query + ' after:' + shiftDate(date, -1) + ' before:' + shiftDate(date, 1),
         hl: 'it', gl: 'IT', ceid: 'IT:it'
       });
       const xml = await text('https://news.google.com/rss/search?' + params, 'Google News: ' + section);
+      // A provider outage affects its other queries too; use dated newspaper archives immediately.
+      if (!xml) {searchUnavailable = true; break;}
       indexed[index] = parseFeed(xml, {date, source: 'Google News', section, indexed: true});
     }
   }));
