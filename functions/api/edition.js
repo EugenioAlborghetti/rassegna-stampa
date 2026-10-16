@@ -1,4 +1,5 @@
 import {validDate, romeDate} from '../../lib/editorial.js';
+import {decorateEdition} from '../../lib/liturgy.js';
 const repo='https://raw.githubusercontent.com/EugenioAlborghetti/rassegna-stampa/main/data/';
 const headers={'Cache-Control':'no-store'};
 function usable(x,date){return x&&x.date===date&&Array.isArray(x.items)&&x.items.length>0}
@@ -29,13 +30,13 @@ export async function onRequestGet({request,env}){
   if(env.ARCHIVE){
     try{
       const saved=await env.ARCHIVE.get('edition:'+date,'json');
-      if(usable(saved,date))return Response.json({...saved,persisted:true,engine:'Archivio server'},{headers});
+      if(usable(saved,date))return Response.json({...decorateEdition(saved),persisted:true,engine:'Archivio server'},{headers});
     }catch{}
   }
   // Newly published editions remain visible without redeploy.
   let edition=await fromGitHub(date);
   let engine='GitHub';
   if(!edition){edition=await fromAssets(request,env,date);engine='Archivio distribuito'}
-  if(usable(edition,date))return Response.json({...edition,persisted:true,engine},{headers});
+  if(usable(edition,date))return Response.json({...decorateEdition(edition),persisted:true,engine},{headers});
   return Response.json({error:'Edizione non ancora pubblicata',date},{status:404,headers});
 }

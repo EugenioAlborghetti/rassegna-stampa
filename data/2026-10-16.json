@@ -6,8 +6,8 @@
   "revision": "6a0d0f41-1a3e-4b26-beb8-444408ace41d",
   "build": "2026-10-16-daily-archives-v3",
   "updated": "ricostruita il 16/10/26, 10:45",
-  "roman": "Memoria liturgica non verificata",
-  "franciscan": "Memoria francescana non verificata",
+  "roman": "VENERDÌ DELLA XXVIII SETTIMANA DEL TEMPO ORDINARIO (ANNO PARI). SANTA EDVIGE, RELIGIOSA – MEMORIA FACOLTATIVA. SANTA MARGHERITA MARIA ALACOQUE, VERGINE – MEMORIA FACOLTATIVA",
+  "franciscan": "Venerdì: Feria (verde) Memorie facoltative: S. Edvige, religiosa (bianco), o S. Margherita Maria Alacoque, vergine (bianco).",
   "items": [
     {
       "section": "In primo piano",
@@ -1044,5 +1044,54 @@
     ]
   },
   "diagnostics": [],
-  "persisted": false
+  "persisted": false,
+  "liturgy": {
+    "version": 1,
+    "date": "2026-10-16",
+    "complete": true,
+    "roman": "VENERDÌ DELLA XXVIII SETTIMANA DEL TEMPO ORDINARIO (ANNO PARI). SANTA EDVIGE, RELIGIOSA – MEMORIA FACOLTATIVA. SANTA MARGHERITA MARIA ALACOQUE, VERGINE – MEMORIA FACOLTATIVA",
+    "franciscan": "Venerdì: Feria (verde) Memorie facoltative: S. Edvige, religiosa (bianco), o S. Margherita Maria Alacoque, vergine (bianco).",
+    "romanDetails": {
+      "date": "2026-10-16",
+      "summary": "VENERDÌ DELLA XXVIII SETTIMANA DEL TEMPO ORDINARIO (ANNO PARI). SANTA EDVIGE, RELIGIOSA – MEMORIA FACOLTATIVA. SANTA MARGHERITA MARIA ALACOQUE, VERGINE – MEMORIA FACOLTATIVA",
+      "celebrations": [
+        {
+          "title": "VENERDÌ DELLA XXVIII SETTIMANA DEL TEMPO ORDINARIO (ANNO PARI)",
+          "color": "verde"
+        },
+        {
+          "title": "SANTA EDVIGE, RELIGIOSA – MEMORIA FACOLTATIVA",
+          "color": "bianco"
+        },
+        {
+          "title": "SANTA MARGHERITA MARIA ALACOQUE, VERGINE – MEMORIA FACOLTATIVA",
+          "color": "bianco"
+        }
+      ],
+      "color": "verde",
+      "readings": [
+        {
+          "label": "Prima Lettura",
+          "reference": "Ef 1,11-14"
+        },
+        {
+          "label": "Salmo Responsoriale",
+          "reference": "Dal Sal 32 (33)"
+        },
+        {
+          "label": "Vangelo",
+          "reference": "Lc 12,1-7"
+        }
+      ],
+      "source": "Conferenza Episcopale Italiana",
+      "sourceUrl": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261016"
+    },
+    "franciscanDetails": {
+      "summary": "Venerdì: Feria (verde) Memorie facoltative: S. Edvige, religiosa (bianco), o S. Margherita Maria Alacoque, vergine (bianco).",
+      "sourcePage": 133,
+      "source": "Frati Minori Conventuali, Provincia Italiana di Sant’Antonio di Padova",
+      "sourceUrl": "https://www.francescaninorditalia.net/index.php/aggiornamenti/news/1075-calendario-liturgico-pisap-ofm-conv-2025-2026",
+      "calendar": "Calendario liturgico 2026"
+    }
+  }
 }

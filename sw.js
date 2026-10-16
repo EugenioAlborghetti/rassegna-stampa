@@ -1,6 +1,6 @@
-const CACHE = 'rassegna-v3.0';
+const CACHE = 'rassegna-v4.0';
 const ASSETS = ['./', 'index.html', 'style.css', 'app.js', 'pronunciation.js',
-  'data-inline.js', 'archive-data.js', 'manifest.webmanifest', 'icon.svg'];
+  'data-inline.js', 'archive-data.js', 'liturgical-data.js', 'manifest.webmanifest', 'icon.svg'];
 self.addEventListener('install', event => event.waitUntil(
   caches.open(CACHE).then(cache => cache.addAll(ASSETS)).then(() => self.skipWaiting())
 ));

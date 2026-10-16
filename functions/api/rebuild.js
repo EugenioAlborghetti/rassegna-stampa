@@ -1,5 +1,6 @@
 import {BUILD, TIME_ZONE, sections, validDate, romeDate, shiftDate, dateLabel,
   parseFeed, parseDailyArchive, selectItems, json} from '../../lib/editorial.js';
+import {calendarForDate} from '../../lib/liturgy.js';
 
 const pending = new Map();
 const directFeeds = [
@@ -46,11 +47,12 @@ async function buildEdition(date, env) {
   if (items.length < 3) return {error: 'Non ci sono ancora abbastanza notizie con data di pubblicazione corrispondente. Riprova più tardi o apri un’altra data.',
     date, found: items.length, diagnostics, status: 503};
   const present = new Set(items.map(x => x.section));
+  const liturgy = calendarForDate(date);
   const edition = {
     date, day: new Intl.DateTimeFormat('it-IT', {weekday: 'long', timeZone: TIME_ZONE}).format(new Date(date + 'T12:00:00Z')),
     dateLabel: dateLabel(date), generatedAt: now.toISOString(), revision: crypto.randomUUID(), build: BUILD,
     updated: 'ricostruita il ' + new Intl.DateTimeFormat('it-IT', {dateStyle: 'short', timeStyle: 'short', timeZone: TIME_ZONE}).format(now),
-    roman: 'Memoria liturgica non verificata', franciscan: 'Memoria francescana non verificata',
+    roman: liturgy.roman, franciscan: liturgy.franciscan, liturgy,
     items, generated: true, engine: 'Archivi giornalieri, RSS e ricerche per data',
     scope: 'Titoli, eventuali estratti e collegamenti. Le sezioni senza fonti datate restano vuote.',
     coverage: {sections: present.size, totalSections: sections.length,

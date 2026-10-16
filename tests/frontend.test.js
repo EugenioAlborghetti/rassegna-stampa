@@ -6,7 +6,7 @@ import {romeDate} from '../lib/editorial.js';
 
 const source = await readFile(new URL('../app.js', import.meta.url), 'utf8');
 const sample = date => ({date, dateLabel: date, items: [{section: 'Sport', title: 'Notizia ' + date, source: 'Fonte', url: 'https://example.org/' + date}]});
-async function app(fetch) {
+async function app(fetch, calendarFetch) {
   const nodes = new Map();
   const node = id => {
     if (!nodes.has(id)) nodes.set(id, {innerHTML: '', textContent: '', value: '', disabled: false,
@@ -18,7 +18,13 @@ async function app(fetch) {
     getItem: {value: key => storage[key] || null}, setItem: {value: (key, value) => storage[key] = value}
   });
   storage['rassegna:' + romeDate()] = JSON.stringify(sample(romeDate()));
-  const context = vm.createContext({Intl, Date, URL, AbortController, setTimeout, clearTimeout, fetch,
+  const request = (url, options) => {
+    if (!url.startsWith('/api/liturgy')) return fetch(url, options);
+    if (calendarFetch) return calendarFetch(url, options);
+    const date = new URL(url, 'https://example.org').searchParams.get('date');
+    return Promise.resolve(Response.json({date, version:1, complete:true, roman:'Calendario romano '+date, franciscan:'Calendario francescano '+date}));
+  };
+  const context = vm.createContext({Intl, Date, URL, AbortController, setTimeout, clearTimeout, fetch:request,
     localStorage: storage, navigator: {}, location: {href: 'https://example.org/', protocol: 'https:'},
     document: {getElementById: node, querySelectorAll: () => [], body: node('body'), documentElement: node('html')},
     history: {replaceState() {}}, ttsText: value => value});
@@ -70,12 +76,12 @@ test('rebuild always sends POST and replaces the registered browser revision', a
   assert.equal(ui.node('rebuild').disabled, false);
 });
 
-test('a failed rebuild preserves the previous edition and its stored contents', async () => {
+test('a failed rebuild preserves the previous news and stored news', async () => {
   const ui = await app(async () => Response.json({error: 'Fonte assente'}, {status: 503}));
   const previous = ui.node('news').innerHTML, stored = ui.storage['rassegna:' + romeDate()];
   await ui.node('rebuild').onclick();
   assert.equal(ui.node('news').innerHTML, previous);
-  assert.equal(ui.storage['rassegna:' + romeDate()], stored);
+  assert.deepEqual(JSON.parse(ui.storage['rassegna:' + romeDate()]).items, JSON.parse(stored).items);
   assert.match(ui.node('status').textContent, /precedente è ancora disponibile/);
 });
 
@@ -111,4 +117,29 @@ test('legacy reconstructions are refreshed instead of hiding the newly published
   assert.equal(calls, 1);
   assert.match(ui.node('news').innerHTML, /Edizione aggiornata/);
   assert.equal(JSON.parse(ui.storage['rassegna:' + romeDate()]).items[0].publishedDate, romeDate());
+});
+
+test('the liturgy fills editions already stored in the browser without rebuilding their news', async () => {
+  const ui = await app(async () => {throw Error('No news request expected');});
+  await ui.run('loadLiturgy(selectedDate, requestId)');
+  assert.match(ui.node('liturgical').innerHTML, /Calendario romano/);
+  assert.match(ui.node('liturgical').innerHTML, /Calendario francescano/);
+  const saved = JSON.parse(ui.storage['rassegna:' + romeDate()]);
+  assert.equal(saved.liturgy.date, romeDate());
+  assert.equal(saved.items[0].title, 'Notizia ' + romeDate());
+});
+
+test('late calendar responses cannot replace the calendar of the selected day', async () => {
+  const waiting = new Map();
+  const ui = await app(async url => Response.json(sample(new URL(url,'https://example.org').searchParams.get('date'))),
+    url => new Promise(resolve => waiting.set(new URL(url,'https://example.org').searchParams.get('date'),resolve)));
+  await ui.run("load('2026-10-11')");
+  await ui.run("load('2026-10-12')");
+  const body = date => ({date,version:1,complete:true,roman:'Romano '+date,franciscan:'Francescano '+date});
+  waiting.get('2026-10-12')(Response.json(body('2026-10-12')));
+  await new Promise(resolve => setImmediate(resolve));
+  waiting.get('2026-10-11')(Response.json(body('2026-10-11')));
+  await new Promise(resolve => setImmediate(resolve));
+  assert.match(ui.node('liturgical').innerHTML, /2026-10-12/);
+  assert.doesNotMatch(ui.node('liturgical').innerHTML, /2026-10-11/);
 });

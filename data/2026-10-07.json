@@ -3,8 +3,8 @@
   "day": "Mercoledì",
   "dateLabel": "7 ottobre 2026",
   "updated": "ore 22:24",
-  "roman": "Beata Maria Vergine del Rosario.",
-  "franciscan": "Memoria propria francescana non verificata con sufficiente certezza da una fonte francescana ufficiale specifica per il 7 ottobre.",
+  "roman": "BEATA VERGINE MARIA DEL ROSARIO – MEMORIA",
+  "franciscan": "Mercoledì: B. Vergine Maria del Rosario. Memoria (bianco)",
   "items": [
     {
       "section": "In primo piano",
@@ -258,5 +258,42 @@
       "source": "Reuters",
       "url": "https://www.reuters.com/business/energy/oil-prices-rise-storms-air-strikes-threaten-supply-2026-10-07/"
     }
-  ]
+  ],
+  "liturgy": {
+    "version": 1,
+    "date": "2026-10-07",
+    "complete": true,
+    "roman": "BEATA VERGINE MARIA DEL ROSARIO – MEMORIA",
+    "franciscan": "Mercoledì: B. Vergine Maria del Rosario. Memoria (bianco)",
+    "romanDetails": {
+      "date": "2026-10-07",
+      "summary": "BEATA VERGINE MARIA DEL ROSARIO – MEMORIA",
+      "celebrations": [
+        {
+          "title": "BEATA VERGINE MARIA DEL ROSARIO – MEMORIA",
+          "color": "bianco"
+        }
+      ],
+      "color": "bianco",
+      "readings": [
+        {
+          "label": "Prima Lettura",
+          "reference": "At 1,12-14"
+        },
+        {
+          "label": "Vangelo",
+          "reference": "Lc 1,26-38"
+        }
+      ],
+      "source": "Conferenza Episcopale Italiana",
+      "sourceUrl": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261007"
+    },
+    "franciscanDetails": {
+      "summary": "Mercoledì: B. Vergine Maria del Rosario. Memoria (bianco)",
+      "sourcePage": 131,
+      "source": "Frati Minori Conventuali, Provincia Italiana di Sant’Antonio di Padova",
+      "sourceUrl": "https://www.francescaninorditalia.net/index.php/aggiornamenti/news/1075-calendario-liturgico-pisap-ofm-conv-2025-2026",
+      "calendar": "Calendario liturgico 2026"
+    }
+  }
 }

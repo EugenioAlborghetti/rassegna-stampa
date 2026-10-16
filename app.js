@@ -8,6 +8,53 @@ const $ = x => document.getElementById(x);
 const key = d => 'rassegna:' + d;
 let ed = null, sec = 'Tutte', q = '', queue = [], qi = 0, paused = false;
 let selectedDate = today(), requestId = 0, controller = null, busy = false, localSaved = false, speechRun = 0;
+const liturgies = new Map();
+
+function calendarCache(d) {
+  const bundled = window.LITURGY_DATA?.[d];
+  if (bundled?.version === 1 && bundled.complete) return bundled;
+  try {
+    const saved = JSON.parse(localStorage.getItem('liturgy:' + d));
+    return saved?.date === d && saved.version === 1 && saved.complete ? saved : null;
+  } catch { return null; }
+}
+function applyLiturgy(value) {
+  if (ed?.date !== value.date) return;
+  ed.roman = value.roman; ed.franciscan = value.franciscan; ed.liturgy = value;
+  localSaved = localPut(ed);
+}
+function renderLiturgy() {
+  const value = liturgies.get(selectedDate) || calendarCache(selectedDate);
+  if (!value) {
+    $('liturgical').innerHTML = '<section class="liturgy-card" aria-label="Liturgia del giorno"><h2>Liturgia del giorno</h2><p>Caricamento dei calendari romano e francescano…</p></section>';
+    return;
+  }
+  const roman = value.romanDetails || {}, franciscan = value.franciscanDetails || {};
+  const rows = roman.celebrations?.length ? roman.celebrations.map(item =>
+    `<p class="liturgy-item">${escapeHtml(item.title)}${item.color ? `<span class="liturgy-color">Colore liturgico: ${escapeHtml(item.color)}</span>` : ''}</p>`).join('') : `<p>${escapeHtml(value.roman)}</p>`;
+  const readings = roman.readings?.length ? `<p class="liturgy-readings">${roman.readings.map(item => `${escapeHtml(item.label)}: ${escapeHtml(item.reference)}`).join(' · ')}</p>` : '';
+  function source(details) {
+    const url = safeUrl(details.sourceUrl);
+    return url ? `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(details.source || 'Consulta la fonte')}</a>` : '';
+  }
+  $('liturgical').innerHTML = `<section class="liturgy-card" aria-label="Liturgia del giorno"><h2>Liturgia del giorno</h2><h3>Calendario romano</h3>${rows}${readings}<div class="meta">${source(roman)}</div><h3>Calendario francescano</h3><p>${escapeHtml(value.franciscan)}</p><div class="meta">${source(franciscan)}${franciscan.sourcePage ? ' · pagina ' + escapeHtml(franciscan.sourcePage) : ''}</div></section>`;
+}
+async function loadLiturgy(d, id) {
+  const cached = liturgies.get(d) || calendarCache(d);
+  if (cached) {liturgies.set(d, cached); applyLiturgy(cached); renderLiturgy(); if (cached.complete) return;}
+  else renderLiturgy();
+  try {
+    const response = await fetch('/api/liturgy?date=' + encodeURIComponent(d), {cache: 'no-store', signal: controller.signal});
+    const value = await response.json();
+    if (id !== requestId || !response.ok || value.date !== d || value.version !== 1) return;
+    liturgies.set(d, value);
+    if (value.complete) {try {localStorage.setItem('liturgy:' + d, JSON.stringify(value));} catch {}}
+    applyLiturgy(value); renderLiturgy();
+  } catch {
+    if (id !== requestId || liturgies.has(d)) return;
+    $('liturgical').innerHTML = `<section class="liturgy-card"><h2>Liturgia del giorno</h2><p>Calendario temporaneamente non disponibile.</p><a href="https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=${d.replaceAll('-', '')}" target="_blank" rel="noopener noreferrer">Consulta la fonte ufficiale</a></section>`;
+  }
+}
 
 function today() {
   return new Intl.DateTimeFormat('sv-SE', {timeZone: 'Europe/Rome', year: 'numeric', month: '2-digit', day: '2-digit'}).format(new Date());
@@ -62,7 +109,9 @@ function render() {
   if (!ed) return;
   $('edition').textContent = `Edizione del ${ed.dateLabel || ed.date}`;
   $('date').value = ed.date;
-  $('liturgical').innerHTML = `<div><b>Calendario romano:</b> ${escapeHtml(ed.roman || 'non disponibile')}</div><div><b>Calendario francescano:</b> ${escapeHtml(ed.franciscan || 'non disponibile')}</div>`;
+  const calendar = liturgies.get(ed.date) || calendarCache(ed.date);
+  if (calendar && ed.liturgy !== calendar) applyLiturgy(calendar);
+  renderLiturgy();
   const items = (ed.items || []).filter(x => (sec === 'Tutte' || x.section === sec)
     && (!q || (x.title + ' ' + (x.summary || '')).toLocaleLowerCase('it').includes(q)));
   $('news').innerHTML = items.length ? items.map(x => {
@@ -94,10 +143,11 @@ function begin(d) {
   url.searchParams.set('date', d);
   history.replaceState(null, '', url);
   setBusy(false);
+  void loadLiturgy(d, id);
   return id;
 }
 function missing(message) {
-  $('liturgical').innerHTML = '';
+  renderLiturgy();
   $('news').innerHTML = '<div class="error"><h2>Edizione non disponibile</h2><p>Seleziona una data e premi Ricostruisci e registra per cercare i titoli pubblicati quel giorno.</p><button id="retry">Ricostruisci e registra</button></div>';
   $('retry').onclick = () => rebuild(selectedDate);
   $('retry').disabled = selectedDate > today();
@@ -107,7 +157,6 @@ async function load(d, force = false) {
   if (!validDate(d)) { $('status').textContent = 'Scegli una data valida.'; return; }
   const id = begin(d);
   ed = null;
-  $('liturgical').innerHTML = '';
   $('news').innerHTML = '';
   $('status').textContent = 'Caricamento dell’edizione…';
   let value = !force && localGet(d);
@@ -144,7 +193,7 @@ async function rebuild(d = selectedDate) {
   const previous = ed?.date === d ? ed : null;
   const id = begin(d), currentController = controller;
   ed = previous;
-  if (!ed) { $('news').innerHTML = ''; $('liturgical').innerHTML = ''; }
+  if (!ed) $('news').innerHTML = '';
   setBusy(true);
   $('status').textContent = 'Ricerca delle fonti e controllo della data di pubblicazione…';
   const timeout = setTimeout(() => currentController.abort(), 65000);
@@ -181,9 +230,20 @@ function score(voice) {
   return (/natural|neural|online/i.test(voice.name) ? 10 : 0) + (/microsoft|google/i.test(voice.name) ? 4 : 0) + (voice.lang === 'it-IT' ? 3 : 0);
 }
 function speechItems() {
-  return (ed?.items || []).filter(x => (sec === 'Tutte' || x.section === sec)
+  const items = (ed?.items || []).filter(x => (sec === 'Tutte' || x.section === sec)
     && (!q || (x.title + ' ' + (x.summary || '')).toLocaleLowerCase('it').includes(q)))
     .map(x => ttsText([x.title, x.summary, $('sources').checked ? 'Fonte ' + x.source : ''].filter(Boolean).join('. ') + '.')).filter(Boolean);
+  const liturgy = ed && (liturgies.get(ed.date) || calendarCache(ed.date));
+  if (sec === 'Tutte' && !q && liturgy?.romanDetails?.celebrations?.length) {
+    const ordinals = ['prima','seconda','terza','quarta','quinta','sesta','settima','ottava','nona','decima','undicesima','dodicesima','tredicesima','quattordicesima','quindicesima','sedicesima','diciassettesima','diciottesima','diciannovesima','ventesima','ventunesima','ventiduesima','ventitreesima','ventiquattresima','venticinquesima','ventiseiesima','ventisettesima','ventottesima','ventinovesima','trentesima','trentunesima','trentaduesima','trentatreesima','trentaquattresima'];
+    const spoken = liturgy.roman.replace(/\b([IVX]+) SETTIMANA\b/g, (match, roman) => {
+      const values = {I:1,V:5,X:10}; let number = 0;
+      for (let i=0;i<roman.length;i++) number += values[roman[i]] < (values[roman[i+1]] || 0) ? -values[roman[i]] : values[roman[i]];
+      return (ordinals[number-1] || roman) + ' settimana';
+    });
+    items.unshift(ttsText('Liturgia del giorno. Calendario romano. ' + spoken + '.'));
+  }
+  return items;
 }
 function speakNext(run = speechRun) {
   if (run !== speechRun) return;

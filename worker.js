@@ -1,10 +1,15 @@
 import { onRequestGet as editionGet } from './functions/api/edition.js';
 import { onRequestPost as rebuildPost } from './functions/api/rebuild.js';
 import { BUILD } from './lib/editorial.js';
+import { onRequestGet as liturgyGet } from './functions/api/liturgy.js';
 
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
+    if (url.pathname === '/api/liturgy') {
+      if (request.method !== 'GET') return new Response('Method Not Allowed', {status:405,headers:{Allow:'GET'}});
+      return liturgyGet({request});
+    }
     if (url.pathname === '/api/version') return Response.json({build:BUILD,historicalSearch:'Daily archives and date-filtered RSS',concurrency:3,timeoutMs:7000,timeZone:'Europe/Rome',serverArchive:!!env.ARCHIVE,serverTime:new Date().toISOString()},{headers:{'Cache-Control':'no-store, max-age=0'}});
 
     if (url.pathname === '/api/rebuild') {

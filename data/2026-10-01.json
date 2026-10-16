@@ -6,8 +6,8 @@
   "revision": "c21218a5-e4d3-4f13-b673-3aec92f4fc6e",
   "build": "2026-10-16-daily-archives-v3",
   "updated": "ricostruita il 16/10/26, 10:45",
-  "roman": "Memoria liturgica non verificata",
-  "franciscan": "Memoria francescana non verificata",
+  "roman": "SANTA TERESA DI GESÙ BAMBINO, VERGINE E DOTTORE DELLA CHIESA – MEMORIA",
+  "franciscan": "Giovedì: S. Teresa di Gesù Bambino, vergine e dottore. Memoria (bianco)",
   "items": [
     {
       "section": "In primo piano",
@@ -1262,5 +1262,46 @@
     "missingSections": []
   },
   "diagnostics": [],
-  "persisted": false
+  "persisted": false,
+  "liturgy": {
+    "version": 1,
+    "date": "2026-10-01",
+    "complete": true,
+    "roman": "SANTA TERESA DI GESÙ BAMBINO, VERGINE E DOTTORE DELLA CHIESA – MEMORIA",
+    "franciscan": "Giovedì: S. Teresa di Gesù Bambino, vergine e dottore. Memoria (bianco)",
+    "romanDetails": {
+      "date": "2026-10-01",
+      "summary": "SANTA TERESA DI GESÙ BAMBINO, VERGINE E DOTTORE DELLA CHIESA – MEMORIA",
+      "celebrations": [
+        {
+          "title": "SANTA TERESA DI GESÙ BAMBINO, VERGINE E DOTTORE DELLA CHIESA – MEMORIA",
+          "color": "bianco"
+        }
+      ],
+      "color": "bianco",
+      "readings": [
+        {
+          "label": "Prima Lettura",
+          "reference": "Gb 19,21-27b"
+        },
+        {
+          "label": "Salmo Responsoriale",
+          "reference": "Dal Sal 26 (27)"
+        },
+        {
+          "label": "Vangelo",
+          "reference": "Lc 10,1-12"
+        }
+      ],
+      "source": "Conferenza Episcopale Italiana",
+      "sourceUrl": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261001"
+    },
+    "franciscanDetails": {
+      "summary": "Giovedì: S. Teresa di Gesù Bambino, vergine e dottore. Memoria (bianco)",
+      "sourcePage": 129,
+      "source": "Frati Minori Conventuali, Provincia Italiana di Sant’Antonio di Padova",
+      "sourceUrl": "https://www.francescaninorditalia.net/index.php/aggiornamenti/news/1075-calendario-liturgico-pisap-ofm-conv-2025-2026",
+      "calendar": "Calendario liturgico 2026"
+    }
+  }
 }

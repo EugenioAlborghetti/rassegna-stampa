@@ -11,3 +11,7 @@ Le ricostruzioni vengono registrate nel browser. Un binding Cloudflare KV `ARCHI
 Per creare un’edizione pubblicabile dal terminale: `node scripts/rebuild.mjs AAAA-MM-GG`. Il comando controlla le date delle fonti prima di scrivere il relativo file nella cartella `data`. La pubblicazione richiede il commit del file nel repository collegato a Cloudflare.
 
 Controlli: `npm test`. Versione distribuita e presenza dell’archivio server: `GET /api/version`.
+
+La sezione liturgica viene aggiornata anche sulle edizioni già salvate nel browser, senza ricostruire le notizie. `GET /api/liturgy?date=AAAA-MM-GG` restituisce celebrazioni romane, memorie facoltative, colori liturgici, riferimenti alle letture e calendario francescano, con i collegamenti alle fonti. I dati romani provengono dalla CEI e la data viene verificata nel contenuto principale della pagina. Il calendario francescano riproduce le indicazioni dell’edizione ufficiale OFM Conv della Provincia Italiana di Sant’Antonio di Padova, dal primo gennaio al ventotto novembre 2026; al di fuori di questo intervallo la copertura mancante viene dichiarata.
+
+`node scripts/update-liturgy.mjs AAAA-MM-GG [...]` aggiorna gli estratti CEI conservati nel progetto, il caricamento immediato nel browser e i dati delle edizioni già pubblicate. Le altre date vengono consultate direttamente alla fonte quando disponibili.
