@@ -23,24 +23,27 @@ export async function onRequestPost({request}){
   if(target.getTime()>now.getTime()+12*3600000)return Response.json({error:'Data futura'},{status:400});
   const after=new Date(target);after.setUTCDate(after.getUTCDate()+1);
   const end=after.toISOString().slice(0,10);
+  const diagnostics=[];
   const results=await Promise.all(sections.map(async ([section,query])=>{
     const q=query+' after:'+date+' before:'+end;
     const url='https://news.google.com/rss/search?q='+encodeURIComponent(q)+'&hl=it&gl=IT&ceid=IT:it';
     try{
-      const r=await fetch(url,{headers:{'User-Agent':'Mozilla/5.0 (compatible; RassegnaStampa/1.0)'}});
-      if(!r.ok)return [];
+      const r=await fetch(url,{headers:{'Accept':'application/rss+xml, application/xml, text/xml'}});
+      if(!r.ok){diagnostics.push(section+': HTTP '+r.status);return []}
       const xml=await r.text();
-      return [...xml.matchAll(/<item>([\s\S]*?)<\/item>/g)].slice(0,4).map(m=>{
+      const matches=[...xml.matchAll(/<item>([\s\S]*?)<\/item>/g)];
+      if(!matches.length)diagnostics.push(section+': RSS senza articoli');
+      return matches.slice(0,20).map(m=>{
         const raw=m[1],title=field(raw,'title'),link=field(raw,'link'),source=field(raw,'source')||'Google News',pub=field(raw,'pubDate');
         const stamp=Date.parse(pub);
-        if(!title||!link||!Number.isFinite(stamp)||new Date(stamp).toISOString().slice(0,10)!==date)return null;
+        if(!title||!link||!Number.isFinite(stamp)||new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Rome',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(stamp))!==date)return null;
         const clean=title.endsWith(' - '+source)?title.slice(0,-source.length-3):title;
         return {section,title:clean,summary:'Titolo pubblicato il '+format(target)+' da '+source+'. Apri la fonte per leggere i dettagli verificati: la ricostruzione automatica non dispone di una sintesi editoriale confermata.',source,url:link};
       }).filter(Boolean);
-    }catch{return []}
+    }catch(e){diagnostics.push(section+': '+String(e).slice(0,100));return []}
   }));
   const seen=new Set(),items=results.flat().filter(x=>{const k=x.title.toLocaleLowerCase('it').replace(/[^a-zà-ÿ0-9]/g,'').slice(0,85);if(seen.has(k))return false;seen.add(k);return true});
-  if(items.length<3)return Response.json({error:'Fonti insufficienti per una ricostruzione attendibile. Nessuna edizione registrata.'},{status:503});
+  if(items.length<3)return Response.json({error:'Fonti insufficienti: '+items.length+' notizie valide. '+diagnostics.slice(0,3).join('; '),date,found:items.length},{status:503});
   const day=new Intl.DateTimeFormat('it-IT',{weekday:'long',timeZone:'Europe/Rome'}).format(target);
   const edition={date,day,dateLabel:format(target),updated:'ricostruita il '+new Intl.DateTimeFormat('it-IT',{dateStyle:'short',timeStyle:'short',timeZone:'Europe/Rome'}).format(now),roman:'Memoria liturgica non verificata',franciscan:'Memoria francescana non verificata',items,generated:true,engine:'Ricostruzione da titoli di fonti indicizzate',scope:'Titoli e link, non sintesi giornalistiche verificate'};
   return Response.json(edition,{headers:{'Cache-Control':'no-store'}});
