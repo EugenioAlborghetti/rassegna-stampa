@@ -1,0 +1,129 @@
+{
+  "date": "2026-11-10",
+  "day": "martedì",
+  "dateLabel": "martedì 10 novembre 2026",
+  "updated": "ore 06:00",
+  "roman": "Memoria di san Leone Magno, papa e dottore della Chiesa. Colore liturgico bianco.",
+  "franciscan": "Memoria francescana specifica non verificata.",
+  "items": [
+    {
+      "section": "In primo piano",
+      "title": "Decreto bollette approvato dal Consiglio dei ministri",
+      "summary": "Il 9 novembre il governo ha approvato il decreto sulle bollette. Secondo quanto comunicato dal ministro Pichetto Fratin, le misure mirano a ridurre il costo dell'elettricità di circa quindici euro per megawattora a partire da gennaio. L'effetto effettivo sulle fatture dipenderà dall'applicazione delle disposizioni.",
+      "source": "ANSA",
+      "url": "https://www.ansa.it/sito/notizie/economia/index.shtml"
+    },
+    {
+      "section": "In primo piano",
+      "title": "Cyberattacchi, oggi il vertice al Viminale",
+      "summary": "È convocato per martedì 10 novembre il Comitato nazionale per l'ordine e la sicurezza pubblica, presieduto dal ministro dell'Interno Matteo Piantedosi. La riunione esaminerà i rischi legati agli attacchi informatici, agli allarmi bomba e alla diffusione di dati sensibili. Il vertice è programmato, non ancora concluso.",
+      "source": "ANSA",
+      "url": "https://www.ansa.it/sito/notizie/cronaca/2026/11/09/allarme-hacker-stretta-sui-protocolli-per-chi-e-scoperto_217a25ea-2d5f-432d-98ba-51fd3560f4ca.html"
+    },
+    {
+      "section": "Provincia di Bergamo",
+      "title": "Palosco, indagini sull'uccisione di una donna di settant'anni",
+      "summary": "A Palosco, nella Bergamasca, una donna è stata trovata morta nella propria abitazione. I carabinieri hanno fermato il figlio quarantasettenne con l'accusa di omicidio. La Procura deve accertare il movente e la data esatta della morte attraverso ulteriori esami. Le responsabilità penali sono ancora oggetto di accertamento.",
+      "source": "ANSA",
+      "url": "https://www.ansa.it/amp/lombardia/notizie/2026/11/09/uccide-la-madre-70enne-a-coltellate-ancora-da-chiarire-il-movente_e36bb351-d801-4d28-800c-251c251ee807.html"
+    },
+    {
+      "section": "Provincia di Bergamo",
+      "title": "Incendio a Grumello del Monte, tre persone intossicate",
+      "summary": "L'Eco di Bergamo riferisce di un incendio sviluppatosi la mattina del 9 novembre in un appartamento al piano terra a Grumello del Monte. Il giornale segnala tre persone intossicate. Non sono disponibili nel materiale consultato ulteriori dettagli clinici verificati.",
+      "source": "L'Eco di Bergamo",
+      "url": "https://www.ecodibergamo.it/"
+    },
+    {
+      "section": "Bergamo città",
+      "title": "Bergamo, pochi giovani fuori da studio e lavoro ma laureati al venticinque per cento",
+      "summary": "Un approfondimento locale segnala che a Bergamo la quota dei giovani che non studiano e non lavorano è contenuta, mentre la percentuale di laureati si ferma intorno al venticinque per cento. Il quadro richiama l'attenzione sulla formazione superiore e sulle competenze, senza consentire da solo conclusioni sulle cause.",
+      "source": "L'Eco di Bergamo",
+      "url": "https://www.ecodibergamo.it/"
+    },
+    {
+      "section": "Italia - Politica e istituzioni",
+      "title": "Centrosinistra, avviati dieci tavoli per il programma comune",
+      "summary": "Il 9 novembre le forze del centrosinistra hanno avviato una serie di dieci tavoli tematici, in programma fino al 17 novembre. Tra gli argomenti figurano lavoro, scuola, sanità, energia, fisco, giustizia e politica estera. I risultati dovranno essere successivamente sintetizzati dai leader politici; non costituiscono ancora un programma definitivo.",
+      "source": "ANSA",
+      "url": "https://www.ansa.it/sito/notizie/politica/2026/11/09/al-via-i-dieci-tavoli-programmatici-per-il-campo-largo_faa820dd-585d-4bcb-96e5-167ac3d853d3.html"
+    },
+    {
+      "section": "Economia, lavoro, imprese, fisco e pensioni",
+      "title": "Ex Ilva, due offerte per il futuro degli stabilimenti",
+      "summary": "Alla scadenza del bando sono emerse due proposte per l'ex Ilva: quella del gruppo indiano Jindal e quella del gruppo italiano Arvedi. La proposta di Arvedi è indicata come subordinata al via libera di Taranto. La scelta dell'acquirente e le condizioni industriali e occupazionali restano da definire.",
+      "source": "ANSA",
+      "url": "https://www.ansa.it/sito/notizie/economia/index.shtml"
+    },
+    {
+      "section": "Economia, lavoro, imprese, fisco e pensioni",
+      "title": "Crédit Agricole propone un'aggregazione con Banco BPM",
+      "summary": "Il gruppo bancario francese ha presentato una proposta di fusione amichevole tra le proprie attività italiane e Banco BPM, con un premio indicato intorno al venti per cento e un miliardo destinato agli azionisti. Il consiglio di amministrazione di Banco BPM è atteso a esaminare la proposta il 12 novembre. Non è un'operazione già conclusa.",
+      "source": "ANSA",
+      "url": "https://www.ansa.it/sito/notizie/economia/index.shtml"
+    },
+    {
+      "section": "Europa e Unione europea",
+      "title": "Consiglio Ecofin, flessibilità per l'Italia su difesa ed energia",
+      "summary": "Il 9 novembre è stato riportato il via libera europeo all'attivazione della clausola nazionale di salvaguardia richiesta dall'Italia per spese legate a difesa ed energia. La misura consente margini di bilancio secondo le condizioni europee e non equivale a un finanziamento diretto dell'Unione.",
+      "source": "ANSA",
+      "url": "https://www.ansa.it/sito/notizie/economia/index_5.shtml"
+    },
+    {
+      "section": "Mercati e finanza",
+      "title": "Piazza Affari chiude in rialzo del due virgola sessantanove per cento",
+      "summary": "Nella seduta di lunedì 9 novembre l'indice principale della Borsa di Milano ha chiuso a 51.399 punti, con un progresso del due virgola sessantanove per cento. A sostenere il listino sono stati soprattutto i titoli bancari, in un contesto di nuove ipotesi di aggregazione nel settore.",
+      "source": "ANSA",
+      "url": "https://www.ansa.it/sito/notizie/economia/index_2.shtml"
+    },
+    {
+      "section": "Mercati e finanza",
+      "title": "Petrolio e gas in ribasso sui mercati",
+      "summary": "Il 9 novembre il Brent ha perso circa il cinque virgola sei per cento, mentre il prezzo del gas sul mercato di Amsterdam è sceso a circa ottantadue euro per megawattora. Gli operatori hanno reagito alle prospettive di dialogo in Medio Oriente. Si tratta di quotazioni di mercato, non di riduzioni automatiche dei prezzi finali al consumo.",
+      "source": "ANSA",
+      "url": "https://www.ansa.it/sito/notizie/economia/index.shtml"
+    },
+    {
+      "section": "Mercati e finanza",
+      "title": "Differenziale fra titoli italiani e tedeschi a 103 punti",
+      "summary": "Alla chiusura del 9 novembre lo spread fra titoli di Stato decennali italiani e tedeschi è sceso a 103 punti base. Il rendimento del titolo italiano è stato indicato intorno al quattro virgola ventinove per cento. Il dato fotografa una singola seduta e può variare nelle contrattazioni successive.",
+      "source": "ANSA",
+      "url": "https://www.ansa.it/sito/notizie/economia/index_2.shtml"
+    },
+    {
+      "section": "Scuola, università, formazione e lavoro educativo",
+      "title": "Scioperi di novembre, prevista mobilitazione generale il 20",
+      "summary": "RaiNews riepiloga le agitazioni sindacali annunciate per novembre. Per il giorno 20 è previsto uno sciopero generale che potrebbe interessare scuola, università, ricerca, sanità, amministrazioni e trasporti. Le adesioni e gli effetti effettivi sui servizi saranno conoscibili solo nelle giornate interessate.",
+      "source": "RaiNews",
+      "url": "https://www.rainews.it/articoli/2026/11/scioperi-novembre-di-mobilitazioni-trasporti-scuola-e-settore-pubblico-le-proteste-88aa7da4-ad6b-4ec7-a964-d9829015bf04.html"
+    },
+    {
+      "section": "Tecnologia, intelligenza artificiale, digitale e cybersecurity",
+      "title": "Quasi quarantacinquemila sistemi esposti rilevati nei primi nove mesi",
+      "summary": "Secondo dati del gruppo italiano di risposta agli incidenti informatici riportati da ANSA, nei primi nove mesi del 2026 sono stati individuati quasi quarantacinquemila servizi e risorse digitali a rischio, con oltre tremiladuecento risorse potenzialmente compromesse. Il dato indica vulnerabilità rilevate e non prova che ogni sistema abbia subito un attacco riuscito.",
+      "source": "ANSA",
+      "url": "https://www.ansa.it/sito/notizie/cronaca/2026/11/09/allarme-hacker-stretta-sui-protocolli-per-chi-e-scoperto_217a25ea-2d5f-432d-98ba-51fd3560f4ca.html"
+    },
+    {
+      "section": "Ambiente, clima, energia e trasporti",
+      "title": "Ecomondo, attenzione ai materiali edilizi recuperabili",
+      "summary": "Nel resoconto della manifestazione Ecomondo a Rimini, RaiNews descrive progetti per edifici capaci di favorire il recupero dei materiali in caso di demolizione e ricostruzione. Si tratta di soluzioni tecnologiche e prospettive di sviluppo, non di uno standard già adottato in tutte le nuove costruzioni.",
+      "source": "RaiNews",
+      "url": "https://www.rainews.it/"
+    },
+    {
+      "section": "Agenda della giornata",
+      "title": "A Bergamo incontro con Massimo Cacciari sul significato della politica",
+      "summary": "Per martedì 10 novembre, alle ore venti, l'agenda culturale locale segnala un incontro con Massimo Cacciari al Gres art 671 di Bergamo. Il tema annunciato è il rapporto tra responsabilità individuale, vita collettiva e politica. L'evento è programmato e non viene presentato come già svolto.",
+      "source": "L'Eco di Bergamo / Eppen",
+      "url": "https://www.ecodibergamo.it/"
+    },
+    {
+      "section": "Agenda della giornata",
+      "title": "Vertice sulla sicurezza informatica e tavolo politico sull'energia",
+      "summary": "Tra gli appuntamenti previsti per il 10 novembre figurano la riunione sulla minaccia informatica al Viminale e il tavolo del centrosinistra su clima ed energia. Le decisioni eventualmente assunte saranno verificabili soltanto dopo gli incontri.",
+      "source": "ANSA",
+      "url": "https://www.ansa.it/sito/notizie/politica/2026/11/09/al-via-i-dieci-tavoli-programmatici-per-il-campo-largo_faa820dd-585d-4bcb-96e5-167ac3d853d3.html"
+    }
+  ]
+}
